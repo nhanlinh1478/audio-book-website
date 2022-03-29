@@ -1,7 +1,7 @@
 import Head from "next/head";
-import Button from "@mui/material/Button";
 import Layout from "../components/layout/Layout";
-
+// import Button from "@mui/material/Button";
+// import Image from "next/image"
 export default function Home() {
   return (
     <div>
@@ -12,7 +12,10 @@ export default function Home() {
       </Head>
 
       {/* Main */}
-      <Button variant="contained">Hello World</Button>
+      <div className="flex justify-center items-center">
+        <img src="https://www.w3schools.com/w3css/img_lights.jpg" alt="" />
+      </div>
+      {/* <Button variant="contained">Hello World</Button> */}
     </div>
   );
 }

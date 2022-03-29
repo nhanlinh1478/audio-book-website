@@ -1,7 +1,10 @@
 import Head from "next/head";
 import Layout from "../components/layout/Layout";
+import RadioGroupRating from "../components/RadioGroupRating";
+import SelectOtherProps from "../components/SelectOtherProps";
 // import Button from "@mui/material/Button";
-// import Image from "next/image"
+// import Image from "next/image";
+
 export default function Home() {
   return (
     <div>
@@ -12,8 +15,16 @@ export default function Home() {
       </Head>
 
       {/* Main */}
-      <div className="flex justify-center items-center">
+      {/* <div className="flex justify-center items-center">
         <img src="https://www.w3schools.com/w3css/img_lights.jpg" alt="" />
+      </div> */}
+      <div>
+        <div className="flex justify-center items-center py-2">
+          <RadioGroupRating />
+        </div>
+        <div className="flex justify-center items-center py-2">
+          <SelectOtherProps />
+        </div>
       </div>
       {/* <Button variant="contained">Hello World</Button> */}
     </div>

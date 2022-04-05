@@ -36,6 +36,8 @@ import { TextField } from "formik-mui";
 
 // YUP
 import * as Yup from "yup";
+import { updateJwt } from "../../redux/storeManage";
+import { useDispatch } from "react-redux";
 
 
 // HOOKS
@@ -52,10 +54,12 @@ const SignInSchema = Yup.object().shape({
 });
 const SignIn = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
   //   const { message, signIn, signInWithGoogle } = useAuth();
   const onSubmit = async (values) => {
     // await signIn(values);
     console.log(values);
+    dispatch(updateJwt("true"));
     router.push("/");
   };
 

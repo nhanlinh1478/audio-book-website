@@ -32,6 +32,4 @@ export default function Home() {
 }
 
 //Layout
-Home.getLayout = function getLayout(page) {
-  return <Layout>{page}</Layout>;
-};
+Home.layout = Layout;

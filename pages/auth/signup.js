@@ -1,15 +1,14 @@
-import React, {useState} from "react";
+import { useState } from "react";
 import { useRouter } from "next/router";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
+import { toast } from "react-toastify";
+import Link from "next/link";
 // MUI COMPONENTS
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
+// import FormControlLabel from "@mui/material/FormControlLabel";
+// import Checkbox from "@mui/material/Checkbox";
+// import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
@@ -39,54 +38,51 @@ import { TextField } from "formik-mui";
 
 // YUP
 import * as Yup from "yup";
-import { Router } from "react-router-dom";
 
 // HOOKS
 // import { useAuth } from "../../hooks";
 
 const initialValues = {
-  name:"",
   email: "",
   password: "",
+  confirmPassword: "",
 };
 
 const SignInSchema = Yup.object().shape({
-  name: Yup.string().required("Field required !"),
   email: Yup.string().email("Email invalid !").required("Field required !"),
   password: Yup.string().required("Field required !"),
+  confirmPassword: Yup.string().required("Field required !"),
 });
-const testExistUser ={
-  name: "Alexander",
-  email: "Alexander@gmail.com",
-  password: "123456"
-}
+const testExistUser = {
+  email: "admin@voiz.vn",
+  password: "123456",
+};
 
 const index = () => {
-
-  const router= useRouter();
+  const router = useRouter();
 
   const onSubmit = async (values) => {
-    /* fetch('https://jsonplaceholder.typicode.com/users') // when we use API
-    .then(response => response.json())
-    .then(json => console.log(json))*/
-
     console.log(values);
-    if (values.email && values.password)
-    {
-      if (values.email===testExistUser.email) 
-      {
-        toast.error("Email has been use!!!");
+    if (values.email && values.password) {
+      if (values.email === testExistUser.email) {
+        toast.error("Email has been used!!!");
         return;
       }
     }
+    if (values.password != values.confirmPassword) {
+      toast.error("Password not match!!!");
+      return;
+    }
 
-    values.name=initialValues.name; // Set form = null
-    values.email=initialValues.email;
-    values.password=initialValues.password;
-    toast("congratulation, your account has been successfully created");
-    /* router.push("/signin"); */ // we can move to Sign In Page
-
-
+    // Set form = null
+    values.email = initialValues.email;
+    values.password = initialValues.password;
+    values.confirmPassword = initialValues.confirmPassword;
+    toast.success(
+      "Congratulation. Your account has been successfully created!"
+    );
+    // we can move to Sign In Page
+    router.push("/auth/signin");
   };
 
   return (
@@ -131,9 +127,7 @@ const index = () => {
               <div>{message.text}</div>
             </Alert>
           )} */}
-          <div>
-        <ToastContainer />
-      </div>
+          <div></div>
           <Formik
             initialValues={initialValues}
             onSubmit={onSubmit}
@@ -144,32 +138,30 @@ const index = () => {
             {(formik) => {
               return (
                 <Form>
-                    <Field
-                    component={TextField}
-                    margin="normal"
-                    fullWidth
-                    label="User Name"
-                    name="name"
-                    type="text"
-                    autoFocus
-                  />
                   <Field
                     component={TextField}
                     margin="normal"
                     fullWidth
-                    label="Email Address"
                     name="email"
+                    label="Email Address"
                     type="email"
                     autoFocus
                   />
 
                   <Field
-                  
                     component={TextField}
                     margin="normal"
                     fullWidth
                     name="password"
                     label="Password"
+                    type="password"
+                  />
+                  <Field
+                    component={TextField}
+                    margin="normal"
+                    fullWidth
+                    name="confirmPassword"
+                    label="Confirm Password"
                     type="password"
                   />
                   <LoadingButton
@@ -194,7 +186,7 @@ const index = () => {
                     // onClick={signInWithGoogle}
                     startIcon={<GoogleIcon />}
                     sx={{
-                      mt: 3,                      
+                      mt: 3,
                       border: "none",
                       "&:hover": {
                         border: "none",
@@ -236,11 +228,10 @@ const index = () => {
             }}
           </Formik>
           <Grid container>
-            <Grid item xs>
-            </Grid>
+            <Grid item xs></Grid>
             <Grid item>
-              <Link href="/signin" variant="body2">
-                {"I already have an account"}
+              <Link href="/auth/signin">
+                <a>I already have an account</a>
               </Link>
             </Grid>
           </Grid>

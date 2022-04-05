@@ -1,10 +1,11 @@
+import Link from "next/link";
 // MUI COMPONENTS
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
+// import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
@@ -34,6 +35,7 @@ import { TextField } from "formik-mui";
 
 // YUP
 import * as Yup from "yup";
+import { useRouter } from "next/router";
 
 // HOOKS
 // import { useAuth } from "../../hooks";
@@ -48,10 +50,12 @@ const SignInSchema = Yup.object().shape({
   password: Yup.string().required("Field required !"),
 });
 const index = () => {
+  const router = useRouter();
   //   const { message, signIn, signInWithGoogle } = useAuth();
   const onSubmit = async (values) => {
     // await signIn(values);
     console.log(values);
+    router.push("/");
   };
 
   return (
@@ -150,7 +154,7 @@ const index = () => {
                     // onClick={signInWithGoogle}
                     startIcon={<GoogleIcon />}
                     sx={{
-                      mt: 3,                      
+                      mt: 3,
                       border: "none",
                       "&:hover": {
                         border: "none",
@@ -193,13 +197,13 @@ const index = () => {
           </Formik>
           <Grid container>
             <Grid item xs>
-              <Link to="/auth/forgot" variant="body2">
-                Forgot password?
+              <Link href="/auth/forgot">
+                <a>Forgot password?</a>
               </Link>
             </Grid>
             <Grid item>
-              <Link to="/auth/signup" variant="body2">
-                {"Don't have an account? Sign Up"}
+              <Link href="/auth/signup">
+                <a>Dont have an account? Sign Up</a>
               </Link>
             </Grid>
           </Grid>

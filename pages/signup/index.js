@@ -207,7 +207,7 @@ const index = () => {
                     disableFocusRipple
                     disableTouchRipple
                   >
-                    Sign In With Google
+                    Sign Up With Google
                   </Button>
                   <Button
                     fullWidth
@@ -229,7 +229,7 @@ const index = () => {
                     disableFocusRipple
                     disableTouchRipple
                   >
-                    Sign In With Facebook
+                    Sign Up With Facebook
                   </Button>
                 </Form>
               );

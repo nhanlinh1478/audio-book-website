@@ -1,4 +1,4 @@
-import { useState } from "react";
+// import { useState } from "react";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 import Link from "next/link";
@@ -58,7 +58,7 @@ const testExistUser = {
   password: "123456",
 };
 
-const index = () => {
+const Index = () => {
   const router = useRouter();
 
   const onSubmit = async (values) => {
@@ -100,7 +100,7 @@ const index = () => {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign up
+          Sign Up
         </Typography>
 
         <Box sx={{ mt: 4 }}>
@@ -241,4 +241,4 @@ const index = () => {
     </Container>
   );
 };
-export default index;
+export default Index;

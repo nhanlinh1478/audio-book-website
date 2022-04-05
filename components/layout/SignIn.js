@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 // MUI COMPONENTS
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
@@ -35,7 +36,7 @@ import { TextField } from "formik-mui";
 
 // YUP
 import * as Yup from "yup";
-import { useRouter } from "next/router";
+
 
 // HOOKS
 // import { useAuth } from "../../hooks";
@@ -49,7 +50,7 @@ const SignInSchema = Yup.object().shape({
   email: Yup.string().email("Email invalid !").required("Field required !"),
   password: Yup.string().required("Field required !"),
 });
-const index = () => {
+const SignIn = () => {
   const router = useRouter();
   //   const { message, signIn, signInWithGoogle } = useAuth();
   const onSubmit = async (values) => {
@@ -73,7 +74,7 @@ const index = () => {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign in
+          Sign In
         </Typography>
 
         <Box sx={{ mt: 4 }}>
@@ -213,4 +214,4 @@ const index = () => {
     </Container>
   );
 };
-export default index;
+export default SignIn;

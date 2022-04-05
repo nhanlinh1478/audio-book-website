@@ -1,8 +1,8 @@
 import React from "react";
-import SignIn from "../../components/signin";
+import SignIn from "../../components/layout/SignIn";
 
-const index = () => {
+const Index = () => {
   return <SignIn />;
 };
 
-export default index;
+export default Index;

@@ -1,10 +1,13 @@
+import { useState } from "react";
+import { useRouter } from "next/router";
+import { toast } from "react-toastify";
 import Link from "next/link";
 // MUI COMPONENTS
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
+// import FormControlLabel from "@mui/material/FormControlLabel";
+// import Checkbox from "@mui/material/Checkbox";
 // import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -35,7 +38,6 @@ import { TextField } from "formik-mui";
 
 // YUP
 import * as Yup from "yup";
-import { useRouter } from "next/router";
 
 // HOOKS
 // import { useAuth } from "../../hooks";
@@ -43,19 +45,44 @@ import { useRouter } from "next/router";
 const initialValues = {
   email: "",
   password: "",
+  confirmPassword: "",
 };
 
 const SignInSchema = Yup.object().shape({
   email: Yup.string().email("Email invalid !").required("Field required !"),
   password: Yup.string().required("Field required !"),
+  confirmPassword: Yup.string().required("Field required !"),
 });
+const testExistUser = {
+  email: "admin@voiz.vn",
+  password: "123456",
+};
+
 const index = () => {
   const router = useRouter();
-  //   const { message, signIn, signInWithGoogle } = useAuth();
+
   const onSubmit = async (values) => {
-    // await signIn(values);
     console.log(values);
-    router.push("/");
+    if (values.email && values.password) {
+      if (values.email === testExistUser.email) {
+        toast.error("Email has been used!!!");
+        return;
+      }
+    }
+    if (values.password != values.confirmPassword) {
+      toast.error("Password not match!!!");
+      return;
+    }
+
+    // Set form = null
+    values.email = initialValues.email;
+    values.password = initialValues.password;
+    values.confirmPassword = initialValues.confirmPassword;
+    toast.success(
+      "Congratulation. Your account has been successfully created!"
+    );
+    // we can move to Sign In Page
+    router.push("/auth/signin");
   };
 
   return (
@@ -73,7 +100,7 @@ const index = () => {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign in
+          Sign up
         </Typography>
 
         <Box sx={{ mt: 4 }}>
@@ -100,6 +127,7 @@ const index = () => {
               <div>{message.text}</div>
             </Alert>
           )} */}
+          <div></div>
           <Formik
             initialValues={initialValues}
             onSubmit={onSubmit}
@@ -114,8 +142,8 @@ const index = () => {
                     component={TextField}
                     margin="normal"
                     fullWidth
-                    label="Email Address"
                     name="email"
+                    label="Email Address"
                     type="email"
                     autoFocus
                   />
@@ -128,9 +156,13 @@ const index = () => {
                     label="Password"
                     type="password"
                   />
-                  <FormControlLabel
-                    control={<Checkbox value="remember" color="primary" />}
-                    label="Remember me"
+                  <Field
+                    component={TextField}
+                    margin="normal"
+                    fullWidth
+                    name="confirmPassword"
+                    label="Confirm Password"
+                    type="password"
                   />
                   <LoadingButton
                     fullWidth
@@ -143,7 +175,7 @@ const index = () => {
                     loading={formik.isSubmitting}
                     variant="contained"
                   >
-                    Sign In
+                    Sign Up
                   </LoadingButton>
                   <Divider>
                     <Chip label="OR" />
@@ -167,7 +199,7 @@ const index = () => {
                     disableFocusRipple
                     disableTouchRipple
                   >
-                    Sign In With Google
+                    Sign Up With Google
                   </Button>
                   <Button
                     fullWidth
@@ -189,21 +221,17 @@ const index = () => {
                     disableFocusRipple
                     disableTouchRipple
                   >
-                    Sign In With Facebook
+                    Sign Up With Facebook
                   </Button>
                 </Form>
               );
             }}
           </Formik>
           <Grid container>
-            <Grid item xs>
-              <Link href="/auth/forgot">
-                <a>Forgot password?</a>
-              </Link>
-            </Grid>
+            <Grid item xs></Grid>
             <Grid item>
-              <Link href="/auth/signup">
-                <a>Dont have an account? Sign Up</a>
+              <Link href="/auth/signin">
+                <a>I already have an account</a>
               </Link>
             </Grid>
           </Grid>

@@ -1,10 +1,10 @@
 import Head from "next/head";
-import Layout from "../../components/layout/Layout";
-import styles from "./BookRequest.module.css";
-import SuccessAlert from "./SuccessAlert";
-import React, { useState } from "react";
+import Layout from "../components/layout/Layout";
+import styles from "../components/Book/BookRequest.module.css";
+import SuccessAlert from "../components/Book/SuccessAlert";
+import { useState } from "react";
 
-export default function Home() {
+export default function BookRequest() {
   const [isSuccess, setIsSuccess] = useState(false);
   const [enteredInput, setEnteredInput] = useState("");
 
@@ -29,7 +29,7 @@ export default function Home() {
 
       <div className="grid grid-cols-12 gap-4 mx-14 my-8">
         <div className="col-span-5">
-          <img src="../public/images/book_request.png" alt="Logo" />
+          <img src="/images/book_request.png" alt="Logo" />
         </div>
         <div className="col-span-7">
           <form
@@ -80,4 +80,4 @@ export default function Home() {
 }
 
 //Layout
-Home.layout = Layout;
+BookRequest.layout = Layout;

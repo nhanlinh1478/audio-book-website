@@ -39,6 +39,7 @@ import * as Yup from "yup";
 import { updateJwt, updateUser } from "../redux/storeManage";
 import { useDispatch } from "react-redux";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 // HOOKS
 // import { useAuth } from "../../hooks";
@@ -68,12 +69,13 @@ const SignIn = () => {
     );
 
     if (res.status === 200) {
-      if (res.data.success) {
+      if (res.data.success == true) {
         const data = res.data.data;
-        console.log(data);
         dispatch(updateJwt(data.jwt));
         dispatch(updateUser(data.user));
         router.push("/");
+      } else {
+        toast.error(res.data.message);
       }
     }
   };

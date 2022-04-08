@@ -13,6 +13,7 @@ const COLORS = {
     success: '#00B967',
     error: '#FF554B',
     white: '#FFFFFF',
+    purple: '#4824bd',
     VZ_Text_content: '#B8B8B8',
     gray2: '#C6C6C6'
 };

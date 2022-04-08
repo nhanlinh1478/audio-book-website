@@ -1,8 +1,24 @@
 import Head from "next/head";
 import Layout from "../../components/layout/Layout";
 import styles from "./BookRequest.module.css";
+import SuccessAlert from "./SuccessAlert";
+import React, { useState } from "react";
 
 export default function Home() {
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [enteredInput, setEnteredInput] = useState("");
+
+  const inputChangeHandler = (event) => {
+    setEnteredInput(event.target.value);
+  };
+
+  const submitHandler = (event) => {
+    event.preventDefault();
+
+    setIsSuccess(true);
+    setEnteredInput("");
+  };
+
   return (
     <div>
       <Head>
@@ -16,10 +32,15 @@ export default function Home() {
           <img src="../public/images/book_request.png" alt="Logo" />
         </div>
         <div className="col-span-7">
-          <form action="https://voiz.vn/book-request/submit" method="post">
+          <form
+            action="https://voiz.vn/book-request/submit"
+            method="post"
+            onSubmit={submitHandler}
+          >
             <h3 className={`${styles.h3} mb-2`}>
               Vui lòng nhập tựa sách bạn muốn yêu cầu.
             </h3>
+            {isSuccess && <SuccessAlert />}
             <div className="form-group mb-4">
               <textarea
                 id="about"
@@ -27,6 +48,8 @@ export default function Home() {
                 rows={3}
                 className={`${styles.textarea} shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md`}
                 placeholder="Nhập càng nhiều càng tốt nhé ..."
+                value={enteredInput}
+                onChange={inputChangeHandler}
               />
             </div>
             <button

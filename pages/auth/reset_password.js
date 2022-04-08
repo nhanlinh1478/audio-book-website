@@ -1,13 +1,14 @@
 // MUI COMPONENTS
 import Avatar from "@mui/material/Avatar";
 import CssBaseline from "@mui/material/CssBaseline";
-import Link from "@mui/material/Link";
+import Link from "next/link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import LoadingButton from "@mui/lab/LoadingButton";
+import { toast } from "react-toastify";
 
 // FORMIK COMPONENTS
 import { Formik, Form, Field } from "formik";
@@ -15,6 +16,8 @@ import { TextField } from "formik-mui";
 
 // YUP
 import * as Yup from "yup";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
 
 const initialValues = {
   newPassword: "",
@@ -27,9 +30,11 @@ const AuthResetPasswordSchema = Yup.object().shape({
     .required("Field is required")
     .oneOf([Yup.ref("newPassword"), null], "Passwords must match"),
 });
-const AuthResetPassword = () => {
+const AuthResetPassword = ({ query }) => {
+  const router = useRouter();
   const onSubmit = async (values) => {
     console.log(values);
+    toast.success("Password changed !");
   };
 
   return (
@@ -98,27 +103,13 @@ const AuthResetPassword = () => {
           </Formik>
           <Grid container>
             <Grid item xs>
-              <Link
-                to="/auth/signin"
-                variant="body2"
-                underline="none"
-                sx={{
-                  cursor: "pointer",
-                }}
-              >
-                Sign in
+              <Link href="/auth/signin">
+                <a>Sign In</a>
               </Link>
             </Grid>
             <Grid item>
-              <Link
-                to="/auth/signup"
-                variant="body2"
-                underline="none"
-                sx={{
-                  cursor: "pointer",
-                }}
-              >
-                {"Don't have an account? Sign Up"}
+              <Link href="/auth/signup">
+                <a>Dont have an account? Sign Up</a>
               </Link>
             </Grid>
           </Grid>
@@ -128,3 +119,20 @@ const AuthResetPassword = () => {
   );
 };
 export default AuthResetPassword;
+
+export function getServerSideProps(ctx) {
+  const query = ctx.query;
+  if (query.activateCode == "" || query.activateCode == undefined) {
+    return {
+      redirect: {
+        destination: "/auth/signin",
+        permanent: false,
+      },
+    };
+  }
+  return {
+    props: {
+      query,
+    },
+  };
+}

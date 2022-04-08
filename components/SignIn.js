@@ -21,8 +21,8 @@ import Card from "@mui/material/Card";
 // import AlertTitle from "@mui/material/AlertTitle";
 
 // CUSTOM ICONS
-import GoogleIcon from "../../assets/GoogleIcon";
-import FacebookIcon from "../../assets/FacebookIcon";
+import GoogleIcon from "../assets/GoogleIcon";
+import FacebookIcon from "../assets/FacebookIcon";
 
 // FORMIK COMPONENTS
 import { Formik, Form, Field } from "formik";
@@ -36,9 +36,8 @@ import { TextField } from "formik-mui";
 
 // YUP
 import * as Yup from "yup";
-import { updateJwt } from "../../redux/storeManage";
+import { updateJwt } from "../redux/storeManage";
 import { useDispatch } from "react-redux";
-
 
 // HOOKS
 // import { useAuth } from "../../hooks";
@@ -202,13 +201,18 @@ const SignIn = () => {
           </Formik>
           <Grid container>
             <Grid item xs>
-              <Link href="/auth/forgot">
+              <Link href="/auth/forgot_password">
                 <a>Forgot password?</a>
               </Link>
             </Grid>
             <Grid item>
               <Link href="/auth/signup">
                 <a>Dont have an account? Sign Up</a>
+              </Link>
+            </Grid>
+            <Grid item>
+              <Link href="/auth/resend_activation_link">
+                <a>Resend Activation Link</a>
               </Link>
             </Grid>
           </Grid>

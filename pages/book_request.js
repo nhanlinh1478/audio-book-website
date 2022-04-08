@@ -29,7 +29,9 @@ export default function BookRequest() {
 
       <div className="grid grid-cols-12 gap-4 mx-14 my-8">
         <div className="col-span-5">
-          <img src="/images/book_request.png" alt="Logo" />
+          <div className="flex justify-center items-center">
+            <img src="/images/book_request.png" alt="Logo" />
+          </div>
         </div>
         <div className="col-span-7">
           <form

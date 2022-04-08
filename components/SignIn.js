@@ -36,8 +36,9 @@ import { TextField } from "formik-mui";
 
 // YUP
 import * as Yup from "yup";
-import { updateJwt } from "../redux/storeManage";
+import { updateJwt, updateUser } from "../redux/storeManage";
 import { useDispatch } from "react-redux";
+import axios from "axios";
 
 // HOOKS
 // import { useAuth } from "../../hooks";
@@ -56,10 +57,25 @@ const SignIn = () => {
   const dispatch = useDispatch();
   //   const { message, signIn, signInWithGoogle } = useAuth();
   const onSubmit = async (values) => {
-    // await signIn(values);
-    console.log(values);
-    dispatch(updateJwt("true"));
-    router.push("/");
+    //Signin
+
+    const res = await axios.post(
+      `${process.env.NEXT_PUBLIC_API_URL}/auth/signin`,
+      {
+        email: values.email,
+        password: values.password,
+      }
+    );
+
+    if (res.status === 200) {
+      if (res.data.success) {
+        const data = res.data.data;
+        console.log(data);
+        dispatch(updateJwt(data.jwt));
+        dispatch(updateUser(data.user));
+        router.push("/");
+      }
+    }
   };
 
   return (

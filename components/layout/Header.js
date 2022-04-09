@@ -21,10 +21,8 @@ import { useSelector } from "react-redux";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { updateJwt } from "../../redux/storeManage";
-//
 import CategoryCard from "../CategoryCard";
-//
-const pages = ["Home", "Reading-book", "Podcast", "suggest-book"];
+const pages = ["Sách nói", "Podcast"];
 const settings = ["Profile", "Account", "Dashboard"];
 
 const Search = styled("div")(({ theme }) => ({
@@ -166,11 +164,21 @@ const ResponsiveAppBar = () => {
                     display: { xs: "block", md: "none" },
                   }}
                 >
+                  <MenuItem>
+                    <Typography textAlign="center">
+                      <Link href="/">Trang chủ</Link>
+                    </Typography>
+                  </MenuItem>
                   {pages.map((page) => (
                     <MenuItem key={page} onClick={handleCloseNavMenu}>
                       <Typography textAlign="center">{page}</Typography>
                     </MenuItem>
                   ))}
+                  <MenuItem>
+                    <Typography textAlign="center">
+                      <Link href="/book_request">Đề nghị sách</Link>
+                    </Typography>
+                  </MenuItem>
                 </Menu>
               </Box>
               <Typography
@@ -182,34 +190,21 @@ const ResponsiveAppBar = () => {
                 LOGO
               </Typography>
               <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-                {pages.map((page) =>
-                  page == "Podcast" ? (
-                    <div>
-                      <Button
-                        key={page}
-                        onClick={handleClick}
-                        sx={{ my: 2, color: "white", display: "block" }}
-                      >
-                        {page}
-                      </Button>
-
-                      <CategoryCard
-                        anchorEl={anchorEl}
-                        setAnchorEl={setAnchorEl}
-                        handleClick={handleClick}
-                        handleClose={handleClose}
-                      />
-                    </div>
-                  ) : (
-                    <Button
-                      key={page}
-                      onClick={handleCloseNavMenu}
-                      sx={{ my: 2, color: "white", display: "block" }}
-                    >
-                      {page}
-                    </Button>
-                  )
-                )}
+                <Button sx={{ my: 2, color: "white", display: "block" }}>
+                  <Link href="/">Trang chủ</Link>
+                </Button>
+                {pages.map((page) => (
+                  <Button
+                    key={page}
+                    onClick={handleCloseNavMenu}
+                    sx={{ my: 2, color: "white", display: "block" }}
+                  >
+                    {page}
+                  </Button>
+                ))}
+                <Button sx={{ my: 2, color: "white", display: "block" }}>
+                  <Link href="/book_request">Đề nghị sách</Link>
+                </Button>
               </Box>
 
               <Box sx={{ flexGrow: 0 }}>

@@ -1,24 +1,28 @@
+import { useState } from "react";
 import { styled } from "@mui/system";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
+import Checkbox from "@mui/material/Checkbox";
 import Box from "@mui/material/Box";
+import FormControlLabel from "@mui/material/FormControlLabel";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
+import Layout from "../../components/layout/Layout";
+import ReactAudioPlayer from "react-audio-player";
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+
 // import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 // import SkipNextIcon from '@mui/icons-material/SkipNext';
 // import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
 // import RotateLeftOutlinedIcon from '@mui/icons-material/RotateLeftOutlined';
 // import RotateRightOutlinedIcon from '@mui/icons-material/RotateRightOutlined';
-import Layout from "../../components/layout/Layout";
-import ReactAudioPlayer from "react-audio-player";
-import { useState } from "react";
 
 const UnitItem = styled("div")((props) => ({
   backgroundColor: props.active ? "rgba(196, 196, 196, 0.3)" : "",
   display: "flex",
   padding: "0px 12px",
   alignItems: "center",
-  width: "90%",
+  width: "100%",
   height: "56px",
   borderRadius: "6px",
   cursor: "pointer",
@@ -49,7 +53,7 @@ const Index = () => {
                   <Avatar
                     variant="square"
                     sx={{ width: 312, height: 312, borderRadius: 6 }}
-                    src="/images/book.jpg"
+                    src="https://picsum.photos/201/201?img=3"
                   />
                   <div className="pb-4" />
                   <p className="text-xl font-medium pb-4 leading-8">
@@ -58,6 +62,10 @@ const Index = () => {
                   <p className="text-lg pb-4">Tác giả: Sưu tầm</p>
                   <p className="text-lg pb-4">Thời lượng: 2h</p>
                   <p className="text-lg pb-4">Kênh: voiz</p>
+                  <FormControlLabel
+                    label={<p className="text-lg text-[#1976d2]">Đánh dấu sách</p>}
+                    control={<Checkbox />}
+                  />
                 </Box>
               </Grid>
               <Grid item xs>
@@ -69,7 +77,7 @@ const Index = () => {
                     Khám phá những địa danh bí ẩn, nhiều ma quỷ nhất trên Thế
                     giới!
                   </p>
-                  <Button size="large" variant="contained">
+                  <Button startIcon={<PlayArrowIcon />} size="large" variant="contained">
                     Phát tất cả
                   </Button>
                   <div className="pb-8" />
@@ -112,7 +120,7 @@ const Index = () => {
               </div>
             </Grid>
             <Grid item xs="auto">
-              <Avatar sx={{ width: 136, height: 136 }} src="/images/book.jpg" />
+              <Avatar sx={{ width: 136, height: 136 }} src="https://picsum.photos/201/201?img=3" />
             </Grid>
             <Grid item xs>
               <div className="w-full h-full flex justify-center text-xl font-semibold items-center text-white">

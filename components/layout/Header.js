@@ -122,7 +122,7 @@ const ResponsiveAppBar = () => {
   }, []);
   return (
     <div class="relative">
-      <div class="fixed top-0 left-0 right-0">
+      <div class="fixed top-0 left-0 right-0" style={{zIndex: 10}}>
         <AppBar position="static">
           <Container maxWidth="lg">
             <Toolbar disableGutters>

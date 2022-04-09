@@ -17,17 +17,39 @@ import { TextField } from "formik-mui";
 // YUP
 import * as Yup from "yup";
 
+// AXIOS
+import axios from "axios";
+
+// HOOKS
+import { useRouter } from "next/router";
+
 const initialValues = {
   email: "",
 };
 
-const AuthForgotSchema = Yup.object().shape({
+const AuthForgotPasswordSchema = Yup.object().shape({
   email: Yup.string().email("Email invalid !").required("Field required !"),
 });
-const AuthForgot = () => {
+const AuthForgotPassword = () => {
+  const router = useRouter();
   const onSubmit = async (values) => {
     console.log(values);
-    toast.success("Email sent !");
+    const res = await axios.post(
+      `${process.env.NEXT_PUBLIC_API_URL}/auth/ForgotPassword`,
+      {
+        email: values.email,
+      }
+    );
+
+    if (res.status === 200) {
+      if (res.data.success == true) {
+        toast.success(
+          "An email containing the password reset link has been sent to your email. Go and check it"
+        );
+      } else {
+        toast.error(res.data.message);
+      }
+    }
   };
 
   return (
@@ -52,7 +74,7 @@ const AuthForgot = () => {
           <Formik
             initialValues={initialValues}
             onSubmit={onSubmit}
-            validationSchema={AuthForgotSchema}
+            validationSchema={AuthForgotPasswordSchema}
           >
             {(formik) => {
               return (
@@ -101,4 +123,4 @@ const AuthForgot = () => {
     </Container>
   );
 };
-export default AuthForgot;
+export default AuthForgotPassword;

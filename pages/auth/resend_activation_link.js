@@ -17,6 +17,9 @@ import { TextField } from "formik-mui";
 // YUP
 import * as Yup from "yup";
 
+// AXIOS
+import axios from "axios";
+
 const initialValues = {
   email: "",
 };
@@ -27,7 +30,23 @@ const ResendActivationLinkSchema = Yup.object().shape({
 const ResendActivationLink = () => {
   const onSubmit = async (values) => {
     console.log(values);
-    toast.success("Email sent !");
+    const res = await axios.post(
+      `${process.env.NEXT_PUBLIC_API_URL}/auth/ReActivationAccount`,
+      {
+        email: values.email,
+      }
+    );
+
+    if (res.status === 200) {
+      if (res.data.success == true) {
+        toast.success(
+          "An email containing the account activation link has been sent to your email. Go and check it"
+        );
+        router.push("/auth/signin");
+      } else {
+        toast.error(res.data.message);
+      }
+    }
   };
 
   return (

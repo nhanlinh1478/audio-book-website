@@ -34,7 +34,20 @@ const AuthResetPassword = ({ query }) => {
   const router = useRouter();
   const onSubmit = async (values) => {
     console.log(values);
-    toast.success("Password changed !");
+    const res = await axios.post(
+      `${process.env.NEXT_PUBLIC_API_URL}/auth/ResetPassword/${values.password}`
+    );
+
+    if (res.status === 200) {
+      if (res.data.success == true) {
+        toast.success(
+          "Password has successfully been reset. You can now sign in with your new password !"
+        );
+        router.push("/auth/signin");
+      } else {
+        toast.error(res.data.message);
+      }
+    }
   };
 
   return (

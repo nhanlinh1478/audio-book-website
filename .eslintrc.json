@@ -3,6 +3,7 @@
     "next/core-web-vitals",
     "eslint:recommended",
     "next",
-    "prettier"
+    "prettier",
+    "next/babel",
   ]
 }

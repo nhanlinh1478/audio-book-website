@@ -3,7 +3,7 @@ export default function Layout({ children }) {
   return (
     <>
       <PrimarySearchAppBar />
-      <div>{children}</div>
+      <div className="mt-20">{children}</div>
     </>
   );
 }

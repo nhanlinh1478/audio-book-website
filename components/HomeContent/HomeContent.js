@@ -223,7 +223,7 @@ export default function HomeContent(props) {
     <Main open={props.open}>
       <HomeCarousel windowWidth={props.windowSize.width}></HomeCarousel>
       <Grid container spacing={2}>
-        <Grid item xs={9}>
+      <Grid item xs={9}>
           <Box
             sx={{
               margin: "107px 48px 56px 48px",
@@ -415,7 +415,7 @@ export default function HomeContent(props) {
               ))}
             </Swiper>
           </Box> */}
-        </Grid>
+        </Grid>  
         <Grid item xs={3}>
           <PlaylistRanking />
         </Grid>

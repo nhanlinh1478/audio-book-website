@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Layout from "../components/layout/Layout";
-import RadioGroupRating from "../components/RadioGroupRating";
-import SelectOtherProps from "../components/SelectOtherProps";
+// import RadioGroupRating from "../components/RadioGroupRating";
+// import SelectOtherProps from "../components/SelectOtherProps";
 // import Button from "@mui/material/Button";
 // import Image from "next/image";
 import HomeContent from "../components/HomeContent/HomeContent";
@@ -27,16 +27,12 @@ export default function Home() {
         </div>
         <div className="flex justify-center items-center py-2">
           <SelectOtherProps />
-        </div> 
-      
-      </div>*/}
-
+        </div>
+      </div> */}
       {/* <Button variant="contained">Hello World</Button> */}
     </div>
   );
 }
 
 //Layout
-Home.getLayout = function getLayout(page) {
-  return <Layout>{page}</Layout>;
-};
+Home.layout = Layout;

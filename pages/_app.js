@@ -1,9 +1,23 @@
 import "../styles/globals.css";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "tailwindcss/tailwind.css";
+import { Provider } from "react-redux";
+import { store, persistor } from "../redux/Store";
+import { PersistGate } from "redux-persist/integration/react";
+
 function MyApp({ Component, pageProps }) {
-  const getLayout = Component.getLayout || ((page) => page);
-  return getLayout(
+  const Layout = Component.layout || (({ children }) => <>{children}</>);
+  return (
     <>
-      <Component {...pageProps} />
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <Layout>
+            <ToastContainer />
+            <Component {...pageProps} />
+          </Layout>
+        </PersistGate>
+      </Provider>
     </>
   );
 }

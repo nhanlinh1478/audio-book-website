@@ -39,6 +39,8 @@ import { TextField } from "formik-mui";
 // YUP
 import * as Yup from "yup";
 import axios from "axios";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
 // HOOKS
 // import { useAuth } from "../../hooks";
@@ -57,6 +59,12 @@ const SignInSchema = Yup.object().shape({
 
 const Index = () => {
   const router = useRouter();
+  const { jwt } = useSelector((state) => state.storeManage);
+  useEffect(() => {
+    if (jwt != "null") {
+      router.push("/");
+    }
+  }, [jwt]);
 
   const onSubmit = async (values) => {
     const res = await axios.post(
@@ -74,9 +82,7 @@ const Index = () => {
 
     if (res.status === 200) {
       if (res.data.success == true) {
-        toast.success(
-          "Sign up success, please check your email to verify your account"
-        );
+        toast.success(res.data.message);
         // router.push("/auth/signin");
       } else {
         toast.error(res.data.message);

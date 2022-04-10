@@ -22,6 +22,8 @@ import axios from "axios";
 
 // HOOKS
 import { useRouter } from "next/router";
+import { useSelector } from "react-redux";
+import { useEffect } from "react";
 
 const initialValues = {
   email: "",
@@ -32,6 +34,12 @@ const AuthForgotPasswordSchema = Yup.object().shape({
 });
 const AuthForgotPassword = () => {
   const router = useRouter();
+  const { jwt } = useSelector((state) => state.storeManage);
+  useEffect(() => {
+    if (jwt != "null") {
+      router.push("/");
+    }
+  }, [jwt]);
   const onSubmit = async (values) => {
     console.log(values);
     const res = await axios.post(
@@ -43,9 +51,7 @@ const AuthForgotPassword = () => {
 
     if (res.status === 200) {
       if (res.data.success == true) {
-        toast.success(
-          "An email containing the password reset link has been sent to your email. Go and check it"
-        );
+        toast.success(res.data.message);
       } else {
         toast.error(res.data.message);
       }

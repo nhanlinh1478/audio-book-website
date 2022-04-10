@@ -19,6 +19,8 @@ import * as Yup from "yup";
 
 // AXIOS
 import axios from "axios";
+import { useSelector } from "react-redux";
+import { useEffect } from "react";
 
 const initialValues = {
   email: "",
@@ -28,8 +30,13 @@ const ResendActivationLinkSchema = Yup.object().shape({
   email: Yup.string().email("Email invalid !").required("Field required !"),
 });
 const ResendActivationLink = () => {
+  const { jwt } = useSelector((state) => state.storeManage);
+  useEffect(() => {
+    if (jwt != "null") {
+      router.push("/");
+    }
+  }, [jwt]);
   const onSubmit = async (values) => {
-    console.log(values);
     const res = await axios.post(
       `${process.env.NEXT_PUBLIC_API_URL}/auth/ReActivationAccount`,
       {
@@ -39,10 +46,7 @@ const ResendActivationLink = () => {
 
     if (res.status === 200) {
       if (res.data.success == true) {
-        toast.success(
-          "An email containing the account activation link has been sent to your email. Go and check it"
-        );
-        router.push("/auth/signin");
+        toast.success(res.data.message);
       } else {
         toast.error(res.data.message);
       }

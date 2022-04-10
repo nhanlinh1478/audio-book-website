@@ -18,11 +18,8 @@ import { TextField } from "formik-mui";
 import * as Yup from "yup";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
-
-const initialValues = {
-  newPassword: "",
-  confirmedPassword: "",
-};
+import { useSelector } from "react-redux";
+import axios from "axios";
 
 const AuthResetPasswordSchema = Yup.object().shape({
   newPassword: Yup.string().required("Field is required"),
@@ -30,20 +27,34 @@ const AuthResetPasswordSchema = Yup.object().shape({
     .required("Field is required")
     .oneOf([Yup.ref("newPassword"), null], "Passwords must match"),
 });
-const AuthResetPassword = ({ query }) => {
+const AuthResetPassword = ({ forgotPasswordCode }) => {
   const router = useRouter();
+  const { jwt } = useSelector((state) => state.storeManage);
+  const initialValues = {
+    newPassword: "",
+    confirmedPassword: "",
+    forgotPasswordCode,
+  };
+  useEffect(() => {
+    if (jwt != "null") {
+      router.push("/");
+    }
+  }, [jwt]);
+
   const onSubmit = async (values) => {
-    console.log(values);
+    if (values.newPassword !== values.confirmedPassword) {
+      toast.error("Passwords must match !");
+      return;
+    }
     const res = await axios.post(
-      `${process.env.NEXT_PUBLIC_API_URL}/auth/ResetPassword/${values.password}`
+      `${process.env.NEXT_PUBLIC_API_URL}/auth/ResetPassword/${values.forgotPasswordCode}`,
+      { password: values.newPassword }
     );
 
     if (res.status === 200) {
       if (res.data.success == true) {
-        toast.success(
-          "Password has successfully been reset. You can now sign in with your new password !"
-        );
-        router.push("/auth/signin");
+        toast.success(res.data.message);
+        // router.push("/auth/signin");
       } else {
         toast.error(res.data.message);
       }
@@ -114,18 +125,6 @@ const AuthResetPassword = ({ query }) => {
               );
             }}
           </Formik>
-          <Grid container>
-            <Grid item xs>
-              <Link href="/auth/signin">
-                <a>Sign In</a>
-              </Link>
-            </Grid>
-            <Grid item>
-              <Link href="/auth/signup">
-                <a>Dont have an account? Sign Up</a>
-              </Link>
-            </Grid>
-          </Grid>
         </Box>
       </Box>
     </Container>
@@ -133,19 +132,31 @@ const AuthResetPassword = ({ query }) => {
 };
 export default AuthResetPassword;
 
-export function getServerSideProps(ctx) {
-  const query = ctx.query;
-  if (query.activateCode == "" || query.activateCode == undefined) {
+export async function getServerSideProps(context) {
+  const { forgotPasswordCode } = context.query;
+  if (!forgotPasswordCode) {
     return {
       redirect: {
-        destination: "/auth/signin",
         permanent: false,
+        destination: "/auth/signin",
       },
     };
   }
+  const res = await axios.get(
+    `${process.env.NEXT_PUBLIC_API_URL}/auth/CheckForgotPasswordCode/${forgotPasswordCode}`
+  );
+
+  if (res.status === 200) {
+    if (res.data.success == true) {
+      return {
+        props: { forgotPasswordCode },
+      };
+    }
+  }
   return {
-    props: {
-      query,
+    redirect: {
+      permanent: false,
+      destination: "/auth/signin",
     },
   };
 }

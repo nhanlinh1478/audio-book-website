@@ -20,7 +20,7 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { updateJwt } from "../../redux/storeManage";
+import { updateJwt, updateUser } from "../../redux/storeManage";
 import CategoryCard from "../CategoryCard";
 const pages = ["Sách nói", "Podcast"];
 const settings = ["Profile", "Account", "Dashboard"];
@@ -105,6 +105,7 @@ const ResponsiveAppBar = () => {
   const handleSignOut = () => {
     handleCloseUserMenu();
     dispatch(updateJwt("null"));
+    dispatch(updateUser("null"));
   };
   const [anchorEl, setAnchorEl] = useState(null);
   const handleClick = (event) => {

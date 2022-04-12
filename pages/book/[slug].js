@@ -12,6 +12,8 @@ import Layout from "../../components/layout/Layout";
 import ReactAudioPlayer from "react-audio-player";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import axios from "axios";
+import moment from "moment";
+import { useSelector } from "react-redux";
 
 // import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 // import SkipNextIcon from '@mui/icons-material/SkipNext';
@@ -36,7 +38,36 @@ const UnitItem = styled("div")((props) => ({
 
 const Index = ({ book, audios }) => {
   const router = useRouter();
+  const { jwt } = useSelector((state) => state.storeManage);
   const [audioIndex, setAudioIndex] = useState(0);
+  const [canHear, setCanHear] = useState(false);
+
+  useEffect(() => {
+    async function getUserInfo() {
+      const res = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/users/account/profile`,
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+        }
+      );
+      if (res.status == 200) {
+        if (res.data.success == true) {
+          const data = res.data.data;
+          if (moment(data.isVip).isAfter(moment())) {
+            setCanHear(true);
+          }
+        }
+      }
+    }
+    if (jwt != "null") {
+      getUserInfo();
+    }
+    if (book.isVip == false) {
+      setCanHear(true);
+    }
+  }, [jwt]);
 
   return (
     <>
@@ -79,15 +110,19 @@ const Index = ({ book, audios }) => {
                     Phát tất cả
                   </Button>
                   <div className="pb-8" />
-                  {audios.map((audio, key) => (
-                    <UnitItem
-                      onClick={() => setAudioIndex(key)}
-                      key={key}
-                      active={audioIndex == key ? 1 : 0}
-                    >
-                      <p className="text-lg">{audio.name}</p>
-                    </UnitItem>
-                  ))}
+                  {canHear == true ? (
+                    audios.map((audio, key) => (
+                      <UnitItem
+                        onClick={() => setAudioIndex(key)}
+                        key={key}
+                        active={audioIndex == key ? 1 : 0}
+                      >
+                        <p className="text-lg">{audio.name}</p>
+                      </UnitItem>
+                    ))
+                  ) : (
+                    <p className="text-lg">Vui lòng nâng cấp VIP để nghe!</p>
+                  )}
                 </Box>
               </Grid>
             </Grid>
@@ -115,7 +150,7 @@ const Index = ({ book, audios }) => {
                                 <div className='w-3'/>
                                 <SkipNextIcon sx={{ fontSize: 60, color: 'white' }} /> */}
                 <ReactAudioPlayer
-                  src={audios[audioIndex]?.url}
+                  src={canHear == true ? audios[audioIndex]?.url : ""}
                   autoPlay
                   controls
                 />
@@ -147,6 +182,14 @@ export async function getServerSideProps(context) {
   if (res.status == 200) {
     if (res.data.success == true) {
       const book = res.data.data;
+      // if (book.isVip == true) {
+      //   return {
+      //     props: {
+      //       book,
+      //       audios: {},
+      //     },
+      //   };
+      // }
       const res2 = await axios.get(
         `${process.env.NEXT_PUBLIC_API_URL}/books/${book._id}/audios`
       );

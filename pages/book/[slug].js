@@ -142,7 +142,7 @@ Index.layout = Layout;
 export async function getServerSideProps(context) {
   const { slug } = context.query;
   const res = await axios.get(
-    `${process.env.NEXT_PUBLIC_API_URL}/books/${slug}`
+    `${process.env.NEXT_PUBLIC_API_URL}/books/slug/${slug}`
   );
   if (res.status == 200) {
     if (res.data.success == true) {

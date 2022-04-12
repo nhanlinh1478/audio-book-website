@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 import { styled } from "@mui/system";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
@@ -9,7 +10,8 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Layout from "../../components/layout/Layout";
 import ReactAudioPlayer from "react-audio-player";
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import axios from "axios";
 
 // import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 // import SkipNextIcon from '@mui/icons-material/SkipNext';
@@ -32,16 +34,10 @@ const UnitItem = styled("div")((props) => ({
   },
 }));
 
-const unitList = [
-  "1. Tiếng vọng nơi phòng ngủ khách sạn",
-  "2. 14 điểm đến đang sợ ở Thái Lan",
-  "3. Những tấm ảnh chứa linh hồn",
-  "4. Bạn có dám bước chân vào những tòa lâu đài này",
-  "5. Đừng đi lung tung ở Bắc Kinh",
-];
+const Index = ({ book, audios }) => {
+  const router = useRouter();
+  const [audioIndex, setAudioIndex] = useState(0);
 
-const Index = () => {
-  const [activeItem, setActiveItem] = useState("");
   return (
     <>
       <Container sx={{ marginBottom: 4 }} component="main" maxWidth="lg">
@@ -53,17 +49,18 @@ const Index = () => {
                   <Avatar
                     variant="square"
                     sx={{ width: 312, height: 312, borderRadius: 6 }}
-                    src="https://picsum.photos/201/201?img=3"
+                    src={book.thumbnail}
                   />
                   <div className="pb-4" />
                   <p className="text-xl font-medium pb-4 leading-8">
-                    Top Những Địa Danh Ma Ám Không Thể Bỏ Qua
+                    {book.name}
                   </p>
-                  <p className="text-lg pb-4">Tác giả: Sưu tầm</p>
-                  <p className="text-lg pb-4">Thời lượng: 2h</p>
-                  <p className="text-lg pb-4">Kênh: voiz</p>
+                  <p className="text-lg pb-4">Tác giả: {book.author}</p>
+                  <p className="text-lg pb-4">Kênh: {book.channel}</p>
                   <FormControlLabel
-                    label={<p className="text-lg text-[#1976d2]">Đánh dấu sách</p>}
+                    label={
+                      <p className="text-lg text-[#1976d2]">Đánh dấu sách</p>
+                    }
                     control={<Checkbox />}
                   />
                 </Box>
@@ -73,21 +70,22 @@ const Index = () => {
                   <p className="text-xl font-medium pb-4 text-blue-600/100">
                     Lời tựa
                   </p>
-                  <p className="text-lg pb-4">
-                    Khám phá những địa danh bí ẩn, nhiều ma quỷ nhất trên Thế
-                    giới!
-                  </p>
-                  <Button startIcon={<PlayArrowIcon />} size="large" variant="contained">
+                  <p className="text-lg pb-4">{book.description}</p>
+                  <Button
+                    startIcon={<PlayArrowIcon />}
+                    size="large"
+                    variant="contained"
+                  >
                     Phát tất cả
                   </Button>
                   <div className="pb-8" />
-                  {unitList.map((item, key) => (
+                  {audios.map((audio, key) => (
                     <UnitItem
-                      onClick={() => setActiveItem(key)}
+                      onClick={() => setAudioIndex(key)}
                       key={key}
-                      active={activeItem == key ? 1 : 0}
+                      active={audioIndex == key ? 1 : 0}
                     >
-                      <p className="text-lg">{item}</p>
+                      <p className="text-lg">{audio.name}</p>
                     </UnitItem>
                   ))}
                 </Box>
@@ -116,15 +114,19 @@ const Index = () => {
                                 <RotateRightOutlinedIcon sx={{ fontSize: 48, color: 'white' }} />
                                 <div className='w-3'/>
                                 <SkipNextIcon sx={{ fontSize: 60, color: 'white' }} /> */}
-                <ReactAudioPlayer autoPlay controls />
+                <ReactAudioPlayer
+                  src={audios[audioIndex]?.url}
+                  autoPlay
+                  controls
+                />
               </div>
             </Grid>
             <Grid item xs="auto">
-              <Avatar sx={{ width: 136, height: 136 }} src="https://picsum.photos/201/201?img=3" />
+              <Avatar sx={{ width: 136, height: 136 }} src={book.thumbnail} />
             </Grid>
             <Grid item xs>
               <div className="w-full h-full flex justify-center text-xl font-semibold items-center text-white">
-                Top những địa danh ma ám không thể bỏ qua
+                {book.name}
               </div>
             </Grid>
           </Grid>
@@ -136,3 +138,35 @@ const Index = () => {
 export default Index;
 
 Index.layout = Layout;
+
+export async function getServerSideProps(context) {
+  const { slug } = context.query;
+  const res = await axios.get(
+    `${process.env.NEXT_PUBLIC_API_URL}/books/${slug}`
+  );
+  if (res.status == 200) {
+    if (res.data.success == true) {
+      const book = res.data.data;
+      const res2 = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/books/${book._id}/audios`
+      );
+      if (res2.status == 200) {
+        if (res2.data.success == true) {
+          const audios = res2.data.data;
+          return {
+            props: {
+              book,
+              audios,
+            },
+          };
+        }
+      }
+    }
+  }
+  return {
+    props: {
+      book: {},
+      audios: {},
+    },
+  };
+}

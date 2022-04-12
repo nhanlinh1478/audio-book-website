@@ -1,5 +1,6 @@
-// import { useState } from 'react';
-import { useRef } from "react";
+import axios from "axios";
+import { useState, useEffect, useRef } from "react";
+import Link from "next/link";
 
 import { styled } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
@@ -33,7 +34,6 @@ import {
   COLORS,
 } from "../../utils/constants";
 
-// import { fakeData, fakeSuggest, newContent, authors } from '../../mockData/HomeData'
 const fakeData = [
   {
     title: "Sách nói chất lượng",
@@ -118,41 +118,6 @@ const fakeData = [
   },
 ];
 
-const fakeSuggest = [
-  { id: 1, avtSrc: "https://picsum.photos/201/201?img=1" },
-  { id: 2, avtSrc: "https://picsum.photos/201/201?img=2" },
-  { id: 3, avtSrc: "https://picsum.photos/201/201?img=3" },
-  { id: 4, avtSrc: "https://picsum.photos/201/201?img=4" },
-  { id: 5, avtSrc: "https://picsum.photos/201/201?img=5" },
-  { id: 6, avtSrc: "https://picsum.photos/201/201?img=5" },
-  { id: 9, avtSrc: "https://picsum.photos/201/201?img=5" },
-  { id: 8, avtSrc: "https://picsum.photos/201/201?img=5" },
-  { id: 7, avtSrc: "https://picsum.photos/201/201?img=5" },
-  { id: 10, avtSrc: "https://picsum.photos/201/201?img=5" },
-];
-
-const newContent = [
-  { id: 1, avtSrc: "https://picsum.photos/201/201?img=26" },
-  { id: 2, avtSrc: "https://picsum.photos/201/201?img=27" },
-  { id: 3, avtSrc: "https://picsum.photos/201/201?img=28" },
-  { id: 4, avtSrc: "https://picsum.photos/201/201?img=29" },
-  { id: 5, avtSrc: "https://picsum.photos/201/201?img=30" },
-  { id: 6, avtSrc: "https://picsum.photos/201/201?img=10" },
-  { id: 7, avtSrc: "https://picsum.photos/201/201?img=10" },
-];
-
-// const authors = [
-//   { id: 1, avtSrc: "https://picsum.photos/201/201?img=26" },
-//   { id: 2, avtSrc: "https://picsum.photos/201/201?img=27" },
-//   { id: 3, avtSrc: "https://picsum.photos/201/201?img=28" },
-//   { id: 4, avtSrc: "https://picsum.photos/201/201?img=29" },
-//   { id: 5, avtSrc: "https://picsum.photos/201/201?img=30" },
-//   { id: 6, avtSrc: "https://picsum.photos/201/201?img=10" },
-//   { id: 7, avtSrc: "https://picsum.photos/201/201?img=10" },
-// ];
-
-// SwiperCore.use([Navigation]);
-
 const flexCenterStyle = {
   display: "flex",
   justifyContent: "flex-start",
@@ -167,7 +132,7 @@ const SwiperBtnNext = (props) => ({
   top: "50%",
   transform: "translate(-40px, 70%)",
   zIndex: 2,
-  ...(props.windowSize.width <= SCREEN_BREAKPOINTS.sm && { display: "none" }),
+  ...(windowSize.width <= SCREEN_BREAKPOINTS.sm && { display: "none" }),
 });
 
 const SwiperBtnPrev = (props) => ({
@@ -178,7 +143,7 @@ const SwiperBtnPrev = (props) => ({
   top: "50%",
   transform: "translate(28px, 70%)",
   zIndex: 2,
-  ...(props.windowSize.width <= SCREEN_BREAKPOINTS.sm && { display: "none" }),
+  ...(windowSize.width <= SCREEN_BREAKPOINTS.sm && { display: "none" }),
 });
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
@@ -212,212 +177,61 @@ const Title = (content) => (
   </Box>
 );
 
-export default function HomeContent(props) {
+export default function HomeContent({ open, windowSize, categories, books }) {
   const navigationNewContentPrevRef = useRef(null);
   const navigationNewContentNextRef = useRef(null);
 
-  let num_items_per_line =
-    props.windowSize.width > SCREEN_BREAKPOINTS.sm ? 5 : 3;
+  // console.log(categories, books);
+
+  let num_items_per_line = windowSize.width > SCREEN_BREAKPOINTS.sm ? 5 : 3;
 
   return (
-    <Main open={props.open}>
-      <HomeCarousel windowWidth={props.windowSize.width}></HomeCarousel>
+    <Main open={open}>
+      <HomeCarousel windowWidth={windowSize.width} />
       <Grid container spacing={2}>
-      <Grid item xs={9}>
-          <Box
-            sx={{
-              margin: "107px 48px 56px 48px",
-            }}
-          >
-            {Title("Gợi ý cho người chưa bắt đầu")}
-            <Swiper
-              slidesPerView={num_items_per_line}
-              spaceBetween={20}
-              style={{ marginTop: 35 }}
-            >
-              {fakeSuggest.map((item) => (
-                <SwiperSlide key={item.id}>
-                  <Thumbnail
-                    style={{ width: "100%", height: "100%", borderRadius: 3 }}
-                    avtSrc={item.avtSrc}
-                    alt={`images ${item.id}`}
-                  ></Thumbnail>
-                </SwiperSlide>
-              ))}
-            </Swiper>
-          </Box>
-          {fakeData.map((data) => (
-            <Box
-              sx={{
-                margin: "0 48px 56px 48px",
-              }}
-              key={data.title}
-            >
-              {Title(data.title)}
-              {/* {data.categories && CatetoryBar(data.categories)} */}
-              <Swiper
-                slidesPerView={num_items_per_line}
-                spaceBetween={20}
-                style={{ marginTop: 35 }}
+        <Grid item xs={9}>
+          <div className="mt-10">
+            {categories.map((category, key) => (
+              <Box
+                sx={{
+                  margin: "0 48px 56px 48px",
+                }}
+                key={key}
               >
-                {data.items.map((item) => (
-                  <SwiperSlide key={item.id}>
-                    <Thumbnail
-                      style={{ width: "100%", height: "100%", borderRadius: 3 }}
-                      avtSrc={item.avtSrc}
-                      alt={`images ${item.id}`}
-                    ></Thumbnail>
-                  </SwiperSlide>
-                ))}
-              </Swiper>
-              {/* <Swiper
-            // install Swiper modules
-            modules={[Navigation, Pagination, Scrollbar, A11y]}
-            spaceBetween={50}
-            slidesPerView={3}
-            navigation
-            pagination={{ clickable: true }}
-            scrollbar={{ draggable: true }}
-            onSwiper={(swiper) => console.log(swiper)}
-            onSlideChange={() => console.log("slide change")}
-          >
-            <SwiperSlide>
-              <Thumbnail
-                style={{ width: "100%", height: "100%", borderRadius: 3 }}
-                avtSrc={"https://picsum.photos/201/201?img=1"}
-                alt={`images 1`}
-              ></Thumbnail>
-            </SwiperSlide>
-            <SwiperSlide>
-              <Thumbnail
-                style={{ width: "100%", height: "100%", borderRadius: 3 }}
-                avtSrc={"https://picsum.photos/201/201?img=1"}
-                alt={`images 1`}
-              ></Thumbnail>
-            </SwiperSlide>
-            <SwiperSlide>
-              <Thumbnail
-                style={{ width: "100%", height: "100%", borderRadius: 3 }}
-                avtSrc={"https://picsum.photos/201/201?img=1"}
-                alt={`images 1`}
-              ></Thumbnail>
-            </SwiperSlide>
-            <SwiperSlide>
-              <Thumbnail
-                style={{ width: "100%", height: "100%", borderRadius: 3 }}
-                avtSrc={"https://picsum.photos/201/201?img=1"}
-                alt={`images 1`}
-              ></Thumbnail>
-            </SwiperSlide>
-            ...
-          </Swiper> */}
-            </Box>
-          ))}
-          {/* <Box
-            sx={{
-              padding: "32px 48px 23px 48px",
-              backgroundColor: COLORS.bg2,
-              position: "relative",
-            }}
-          >
-            {Title("Nội dung mới cho bạn")}
-            <Swiper
-              navigation={{
-                prevEl: navigationNewContentPrevRef.current,
-                nextEl: navigationNewContentNextRef.current,
-              }}
-              onBeforeInit={(swiper) => {
-                swiper.params.navigation.prevEl =
-                  navigationNewContentPrevRef.current;
-                swiper.params.navigation.nextEl =
-                  navigationNewContentNextRef.current;
-              }}
-              slidesPerView={num_items_per_line}
-              spaceBetween={20}
-            >
-              {newContent.map((item) => (
-                <SwiperSlide key={item.id}>
-                  <Thumbnail
-                    style={{
-                      borderRadius: "6px",
-                      width: "100%",
-                      height: "100%",
-                    }}
-                    avtSrc={"https://picsum.photos/201/201?img=1"}
-                    alt={`images ${item.id}`}
-                  ></Thumbnail>
-                </SwiperSlide>
-              ))}
-            </Swiper>
-            <div
-              style={{
-                ...SwiperBtnPrev(props),
-              }}
-              ref={navigationNewContentPrevRef}
-            >
-              <CarouselPrev></CarouselPrev>
-            </div>
-            <div
-              style={{
-                ...SwiperBtnNext(props),
-              }}
-              ref={navigationNewContentNextRef}
-            >
-              {" "}
-              <CarouselNext></CarouselNext>
-            </div>
-          </Box> */}
-
-          {/* <Box
-            sx={{
-              margin: "60px 48px",
-            }}
-          >
-            {Title("Tác giả nổi bật")}
-            <Swiper slidesPerView={num_items_per_line} spaceBetween={20}>
-              {authors.map((item) => (
-                <SwiperSlide key={item.id}>
-                  <Thumbnail
-                    style={{ borderRadius: "50%", width: "80%", height: "80%" }}
-                    avtSrc={item.avtSrc}
-                    alt={`images ${item.id}`}
-                  ></Thumbnail>
-                  <Typography
-                    sx={{
-                      ...(props.windowSize.width > SCREEN_BREAKPOINTS.sm
-                        ? TEXT_STYLE.title1
-                        : TEXT_STYLE.title3),
-                      color: COLORS.white,
-                      letterSpacing: 0,
-                      marginTop: "22px",
-                    }}
-                  >
-                    Vũ trọng phụng
-                  </Typography>
-                  <Typography
-                    sx={{
-                      ...(props.windowSize.width > SCREEN_BREAKPOINTS.sm
-                        ? TEXT_STYLE.VZ_Caption_2
-                        : TEXT_STYLE.caption10Regular),
-                      color: COLORS.VZ_Text_content,
-                      display: "-webkit-box",
-                      marginTop: "8px",
-                      textOverflow: "ellipsis",
-                      WebkitLineClamp: 2,
-                      WebkitBoxOrient: "vertical",
-                      overflow: "hidden",
-                    }}
-                  >
-                    Vũ Trọng Phụng là một nhà văn, nhà báo nổi tiếng của Việt
-                    Nam giai đo ...
-                  </Typography>
-                </SwiperSlide>
-              ))}
-            </Swiper>
-          </Box> */}
-        </Grid>  
+                {Title(category.name)}
+                <Swiper
+                  slidesPerView={num_items_per_line}
+                  spaceBetween={20}
+                  style={{ marginTop: 35 }}
+                >
+                  {books.map((book, index) =>
+                    book.categoryId._id === category._id ? (
+                      <SwiperSlide key={index}>
+                        <Link href={`/book/${book.slug}`}>
+                          <a>
+                            <Thumbnail
+                              style={{
+                                width: "100%",
+                                height: "100%",
+                                borderRadius: 3,
+                              }}
+                              avtSrc={book.thumbnail}
+                              alt={`images ${book.slug}`}
+                            />
+                          </a>
+                        </Link>
+                      </SwiperSlide>
+                    ) : (
+                      ""
+                    )
+                  )}
+                </Swiper>
+              </Box>
+            ))}
+          </div>
+        </Grid>
         <Grid item xs={3}>
-          <PlaylistRanking />
+          <PlaylistRanking books={books} />
         </Grid>
       </Grid>
     </Main>

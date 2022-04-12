@@ -34,11 +34,7 @@ export default function BookRequest() {
           </div>
         </div>
         <div className="col-span-7">
-          <form
-            action="https://voiz.vn/book-request/submit"
-            method="post"
-            onSubmit={submitHandler}
-          >
+          <form action="" method="post" onSubmit={submitHandler}>
             <h3 className={`${styles.h3} mb-2`}>
               Vui lòng nhập tựa sách bạn muốn yêu cầu.
             </h3>
@@ -63,20 +59,6 @@ export default function BookRequest() {
           </form>
         </div>
       </div>
-
-      {/* Main */}
-      {/* <div className="flex justify-center items-center">
-        <img src="https://www.w3schools.com/w3css/img_lights.jpg" alt="" />
-      </div> */}
-      {/* <div>
-        <div className="flex justify-center items-center py-2">
-          <RadioGroupRating />
-        </div>
-        <div className="flex justify-center items-center py-2">
-          <SelectOtherProps />
-        </div>
-      </div> */}
-      {/* <Button variant="contained">Hello World</Button> */}
     </div>
   );
 }

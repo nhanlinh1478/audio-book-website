@@ -85,7 +85,7 @@ const ResponsiveAppBar = () => {
 
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
-  const [keyWord, setKeyWord] = useState(null);
+  const [keyWord, setKeyWord] = useState("");
   const [dataFilter, setDataFilter] = useState(null);
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -115,15 +115,14 @@ const ResponsiveAppBar = () => {
     setAnchorEl(null);
   };
   const handleChangeSearch = (e) => {
-    let lowerCase = e.target.value.toLowerCase();
-    setKeyWord(lowerCase);
+    setKeyWord(e.target.value);
   };
   useEffect(() => {
     setKeyWord(router.query.keyword || "");
   }, []);
   return (
-    <div class="relative">
-      <div class="fixed top-0 left-0 right-0" style={{zIndex: 10}}>
+    <div className="relative">
+      <div className="fixed top-0 left-0 right-0" style={{ zIndex: 10 }}>
         <AppBar position="static">
           <Container maxWidth="lg">
             <Toolbar disableGutters>
@@ -133,7 +132,7 @@ const ResponsiveAppBar = () => {
                 component="div"
                 sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
               >
-                VOIZ
+                Audio Book
               </Typography>
 
               <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>

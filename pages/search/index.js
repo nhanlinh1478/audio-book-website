@@ -1,7 +1,6 @@
-import * as React from "react";
-import { styled } from "@mui/material/styles";
+// import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
+// import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import {
   Card,
@@ -13,12 +12,10 @@ import {
 } from "@mui/material";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import CalendarViewDayOutlinedIcon from "@mui/icons-material/CalendarViewDayOutlined";
-//
 import Layout from "../../components/layout/Layout";
-//
 
-function Search({ authors }) {
-  console.log("authors:", authors);
+export default function Search({ authors }) {
+  // console.log("authors:", authors);
   return (
     <Box sx={{ flexGrow: 1, mt: 3, mr: 3, ml: 3 }} container>
       <Grid container spacing={2}>
@@ -83,8 +80,8 @@ function Search({ authors }) {
       </Grid>
       <Grid container spacing={2}>
         <Grid item xs={8} container>
-          {authors.map((author) => (
-            <Grid item xs={4} sm={3} md={3} key={author} sx={{ mt: 3 }}>
+          {authors.map((author, key) => (
+            <Grid item xs={4} sm={3} md={3} key={key} sx={{ mt: 3 }}>
               <Card sx={{ maxWidth: 170, maxHeight: 170, borderRadius: 2 }}>
                 <CardActionArea>
                   <CardMedia
@@ -139,9 +136,8 @@ function Search({ authors }) {
     </Box>
   );
 }
-
-export default Search;
 Search.layout = Layout;
+
 export async function getServerSideProps(ctx) {
   const keyword = ctx.query.keyword;
   const authors = ["1", "2", "3", "4", "5", "1", "2", "3", "4", "5"];

@@ -22,7 +22,9 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { updateJwt, updateUser } from "../../redux/storeManage";
 import CategoryCard from "../CategoryCard";
-const pages = ["Sách nói", "Podcast"];
+import Fade from "@mui/material/Fade";
+
+const pages = ["Sách nói"];
 const settings = ["Profile", "Account", "Dashboard"];
 
 const Search = styled("div")(({ theme }) => ({
@@ -123,7 +125,7 @@ const ResponsiveAppBar = () => {
   }, []);
   return (
     <div class="relative">
-      <div class="fixed top-0 left-0 right-0" style={{zIndex: 10}}>
+      <div class="fixed top-0 left-0 right-0" style={{ zIndex: 10 }}>
         <AppBar position="static">
           <Container maxWidth="lg">
             <Toolbar disableGutters>
@@ -203,6 +205,24 @@ const ResponsiveAppBar = () => {
                     {page}
                   </Button>
                 ))}
+                <div>
+                  <Button
+                    sx={{ my: 2, color: "white", display: "block" }}
+                    id="fade-button"
+                    aria-controls={open ? "fade-menu" : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={open ? "true" : undefined}
+                    onClick={handleClick}
+                  >
+                    Podcast
+                  </Button>
+                  <CategoryCard
+                    anchorEl={anchorEl}
+                    setAnchorEl={setAnchorEl}
+                    handleClick={handleClick}
+                    handleClose={handleClose}
+                  />
+                </div>
                 <Button sx={{ my: 2, color: "white", display: "block" }}>
                   <Link href="/book_request">Đề nghị sách</Link>
                 </Button>

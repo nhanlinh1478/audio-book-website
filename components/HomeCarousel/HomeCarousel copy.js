@@ -7,14 +7,7 @@ import Box from "@mui/material/Box";
 // import swiper
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Navigation } from "swiper";
-import {
-  Grid,
-  Card,
-  CardContent,
-  CardActionArea,
-  CardMedia,
-  Typography,
-} from "@mui/material";
+import { Grid } from "@mui/material";
 // import icons
 import { CarouselNext, CarouselPrev } from "../../components/Icons/index";
 
@@ -48,9 +41,38 @@ export default function HomeCarousel(props) {
 
   const images = [
     {
-      imgSrc:
-        "http://res.cloudinary.com/dacnpm-02-18/image/upload/v1649747227/stedjd6dvav1aoesfzns.jpg",
+      imgSrc: "https://picsum.photos/1190/420?img=1",
       thumbnailSrc: "https://picsum.photos/1190/420?img=1",
+      alt: "image 1",
+    },
+    {
+      imgSrc: "https://picsum.photos/1190/420?img=2",
+      thumbnailSrc: "https://picsum.photos/1190/420?img=2",
+      alt: "image 1",
+    },
+    {
+      imgSrc: "https://picsum.photos/1190/420?img=3",
+      thumbnailSrc: "https://picsum.photos/1190/420?img=3",
+      alt: "image 1",
+    },
+    {
+      imgSrc: "https://picsum.photos/1190/420?img=4",
+      thumbnailSrc: "https://picsum.photos/1190/420?img=4",
+      alt: "image 1",
+    },
+    {
+      imgSrc: "https://picsum.photos/1190/420?img=5",
+      thumbnailSrc: "https://picsum.photos/1190/420?img=5",
+      alt: "image 1",
+    },
+    {
+      imgSrc: "https://picsum.photos/1190/420?img=6",
+      thumbnailSrc: "https://picsum.photos/1190/420?img=6",
+      alt: "image 1",
+    },
+    {
+      imgSrc: "https://picsum.photos/1190/420?img=7",
+      thumbnailSrc: "https://picsum.photos/1190/420?img=7",
       alt: "image 1",
     },
   ];
@@ -82,7 +104,7 @@ export default function HomeCarousel(props) {
                   sx={{
                     height: isSm ? "280px" : "420px",
                     position: "relative",
-                    width: "98%",
+                    width: "100%",
                   }}
                 >
                   <div style={{ height: "80%", width: "10%" }}>
@@ -119,6 +141,7 @@ export default function HomeCarousel(props) {
                   }}
                 >
                   <Swiper
+                    direction="vertical"
                     navigation={{
                       prevEl: navigationNewContentPrevRef.current,
                       nextEl: navigationNewContentNextRef.current,
@@ -129,74 +152,56 @@ export default function HomeCarousel(props) {
                       swiper.params.navigation.nextEl =
                         navigationNewContentNextRef.current;
                     }}
+                    autoplay={{
+                      delay: 1500,
+                    }}
                     watchSlidesProgress={true}
                     slidesPerView={3}
+                    loop={true}
                     modules={[Autoplay, Pagination, Navigation]}
                   >
-                    <div
-                      sx={{
-                        mixBlendMode: "normal",
-
-                        position: "relative",
-                        mt: 2,
-                      }}
-                    >
-                      <Card
-                        sx={{
-                          maxWidth: 300,
-                          maxHeight: 250,
-                          marginLeft: "30px",
-                          borderRadius: "16px",
-                          mt: 2,
-                        }}
+                    {images.map((image, idx) => (
+                      <SwiperSlide
+                        onClick={handleClickThumbnail}
+                        id={idx}
+                        key={idx}
                       >
-                        <CardActionArea>
-                          <CardMedia
-                            component="img"
-                            height="140"
-                            image="https://picsum.photos/1090/420?img=4"
-                            alt="green iguana"
-                          />
-                        </CardActionArea>
-                      </Card>
-                      <Card
-                        sx={{
-                          maxWidth: 300,
-                          maxHeight: 250,
-                          marginLeft: "30px",
-                          borderRadius: "16px",
-                          marginTop: "20px",
-                        }}
-                      >
-                        <CardActionArea>
-                          <CardMedia
-                            component="img"
-                            height="140"
-                            image="https://picsum.photos/1090/420?img=4"
-                            alt="green iguana"
-                          />
-                        </CardActionArea>
-                      </Card>
-                      <Card
-                        sx={{
-                          maxWidth: 300,
-                          maxHeight: 250,
-                          marginLeft: "30px",
-                          borderRadius: "16px",
-                          marginTop: "20px",
-                        }}
-                      >
-                        <CardActionArea>
-                          <CardMedia
-                            component="img"
-                            height="140"
-                            image="https://picsum.photos/1090/420?img=4"
-                            alt="green iguana"
-                          />
-                        </CardActionArea>
-                      </Card>
-                    </div>
+                        <img
+                          style={{
+                            width: 310,
+                            height: 130,
+                            marginLeft: "30px",
+                            borderRadius: "16px",
+                          }}
+                          alt={image.alt}
+                          key={idx}
+                          src={image.imgSrc}
+                        />
+                      </SwiperSlide>
+                    ))}
                   </Swiper>
+                  <div
+                    onClick={() => {
+                      handleChangeSlideClick(false);
+                    }}
+                    style={{
+                      ...SwiperBtnPrev({ isSm }),
+                    }}
+                    ref={navigationNewContentPrevRef}
+                  >
+                    <CarouselPrev />
+                  </div>
+                  <div
+                    onClick={() => {
+                      handleChangeSlideClick(true);
+                    }}
+                    style={{
+                      ...SwiperBtnNext({ isSm }),
+                    }}
+                    ref={navigationNewContentNextRef}
+                  >
+                    <CarouselNext />
+                  </div>
                 </Box>
               </Grid>
             </Grid>

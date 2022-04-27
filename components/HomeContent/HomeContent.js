@@ -13,10 +13,11 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
-
+import Avatar from "@mui/material/Avatar";
 import Thumbnail from "../../components/Thumbnail/Thumbnail";
 import HomeCarousel from "../HomeCarousel/HomeCarousel";
 import PlaylistRanking from "../PlaylistRanking/PlaylistRanking";
+import ImageGallery from "react-image-gallery";
 
 import { Grid } from "@mui/material";
 
@@ -177,6 +178,21 @@ const Title = (content) => (
   </Box>
 );
 
+const images = [
+  {
+    original: "https://picsum.photos/id/1018/1000/600/",
+    thumbnail: "https://picsum.photos/id/1018/250/150/",
+  },
+  {
+    original: "https://picsum.photos/id/1015/1000/600/",
+    thumbnail: "https://picsum.photos/id/1015/250/150/",
+  },
+  {
+    original: "https://picsum.photos/id/1019/1000/600/",
+    thumbnail: "https://picsum.photos/id/1019/250/150/",
+  },
+];
+
 export default function HomeContent({ open, windowSize, categories, books }) {
   const navigationNewContentPrevRef = useRef(null);
   const navigationNewContentNextRef = useRef(null);
@@ -187,7 +203,11 @@ export default function HomeContent({ open, windowSize, categories, books }) {
 
   return (
     <Main open={open}>
-      <HomeCarousel windowWidth={windowSize.width} />
+      {/* <HomeCarousel windowWidth={windowSize.width} /> */}
+      <div className="flex justify-center items-center">
+        <ImageGallery items={images} />;
+      </div>
+
       <Grid container spacing={2}>
         <Grid item xs={9}>
           <div className="mt-10">
@@ -209,14 +229,10 @@ export default function HomeContent({ open, windowSize, categories, books }) {
                       <SwiperSlide key={index}>
                         <Link href={`/book/${book.slug}`}>
                           <a>
-                            <Thumbnail
-                              style={{
-                                width: "100%",
-                                height: "100%",
-                                borderRadius: 3,
-                              }}
-                              avtSrc={book.thumbnail}
-                              alt={`images ${book.slug}`}
+                            <Avatar
+                              variant="square"
+                              sx={{ width: 150, height: 150, borderRadius: 6 }}
+                              src={book.thumbnail}
                             />
                           </a>
                         </Link>

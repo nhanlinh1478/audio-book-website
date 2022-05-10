@@ -14,9 +14,10 @@ import CheckoutCartItem from "../../components/checkout/cart/CheckoutCartItem";
 
 // Utils
 import getPriceString from "../../utils/getPriceString";
+import getTotalPrice from "../../utils/getTotalPrice";
 
 // DUMMY_CART_ITEMS
-const DUMMY_CART_ITEMS = [
+export const DUMMY_CART_ITEMS = [
   {
     id: "id1",
     title:
@@ -78,13 +79,7 @@ const DUMMY_CART_ITEMS = [
 
 export default function cart() {
   const [items, setItems] = useState(DUMMY_CART_ITEMS);
-  const getTotalPrice = () => {
-    let totalPrice = 0;
-    for (let i = 0; i < items.length; i++) {
-      totalPrice += items[i].price;
-    }
-    return totalPrice;
-  };
+
   const handleClickRemoveCartItem = (id) => {
     setItems((prevItems) => {
       return prevItems.filter((item) => {
@@ -156,7 +151,7 @@ export default function cart() {
                       Tổng tiền
                     </Typography>
                     <Typography variant="h5">
-                      {getPriceString(getTotalPrice())}
+                      {getPriceString(getTotalPrice(items))}
                     </Typography>
                   </Toolbar>
                 </Grid>

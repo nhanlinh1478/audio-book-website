@@ -1,171 +1,107 @@
-import { useState, useEffect } from "react";
-import { useRouter } from "next/router";
-import { styled } from "@mui/system";
+import { useState } from 'react';
 import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
-import Checkbox from "@mui/material/Checkbox";
 import Box from "@mui/material/Box";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
 import Layout from "../../components/layout/Layout";
-import ReactAudioPlayer from "react-audio-player";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import axios from "axios";
-import moment from "moment";
-import { useSelector } from "react-redux";
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+import TablePagination from '@mui/material/TablePagination';
+import { Input } from '@mui/material';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select'; 
+import Button from '@mui/material/Button'; 
+import FormControl from '@mui/material/FormControl';
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
 
-// import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
-// import SkipNextIcon from '@mui/icons-material/SkipNext';
-// import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
-// import RotateLeftOutlinedIcon from '@mui/icons-material/RotateLeftOutlined';
-// import RotateRightOutlinedIcon from '@mui/icons-material/RotateRightOutlined';
+const createData = (time, name, author, price, status) => {
+  return { time, name, author, price, status };
+}
 
-const UnitItem = styled("div")((props) => ({
-  backgroundColor: props.active ? "rgba(196, 196, 196, 0.3)" : "",
-  display: "flex",
-  padding: "0px 12px",
-  alignItems: "center",
-  width: "100%",
-  height: "56px",
-  borderRadius: "6px",
-  cursor: "pointer",
-  minWidth: "266px",
-  ":hover": {
-    backgroundColor: "rgba(196, 196, 196, 0.3)",
-  },
-}));
+const rows = [
+  createData('12/12/2021', 'Frozen yoghurt', 'Johnny Depp', '20.000 đ', 'Đã nghe'),
+  createData('12/12/2021', 'Ice cream sandwich', 'Johnny Depp', '20.000 đ', 'Chưa nghe'),
+  createData('12/12/2021', 'Eclair', 'Johnny Depp', '20.000 đ', 'Chưa nghe'),
+  createData('12/12/2021', 'Cupcake', 'Johnny Depp', '20.000 đ', 'Chưa nghe'),
+  createData('12/12/2021', 'Gingerbread', 'Johnny Depp', '20.000 đ', 'Chưa nghe'),
+];
 
-const Index = ({ book, audios }) => {
-  const router = useRouter();
-  const { jwt } = useSelector((state) => state.storeManage);
-  const [audioIndex, setAudioIndex] = useState(0);
-  const [canHear, setCanHear] = useState(false);
-
-  useEffect(() => {
-    async function getUserInfo() {
-      const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/users/account/profile`,
-        {
-          headers: {
-            Authorization: `Bearer ${jwt}`,
-          },
-        }
-      );
-      if (res.status == 200) {
-        if (res.data.success == true) {
-          const data = res.data.data;
-          if (moment(data.isVip).isAfter(moment())) {
-            setCanHear(true);
-          }
-        }
-      }
-    }
-    if (jwt != "null") {
-      getUserInfo();
-    }
-    if (book.isVip == false) {
-      setCanHear(true);
-    }
-  }, [jwt]);
-
+const Index = () => {
+  const [status, setStatus] = useState(1);
   return (
     <>
       <Container sx={{ marginBottom: 4 }} component="main" maxWidth="lg">
-        <Box sx={{ height: "auto", width: "100%", padding: "38px 0px" }}>
-          <Box sx={{ flexGrow: 1 }}>
-            <Grid container spacing={4}>
-              <Grid item xs="auto">
-                <Box sx={{ width: 312, height: "auto" }}>
-                  <Avatar
-                    variant="square"
-                    sx={{ width: 312, height: 312, borderRadius: 6 }}
-                    src={book.thumbnail}
-                  />
-                  <div className="pb-4" />
-                  <p className="text-xl font-medium pb-4 leading-8">
-                    {book.name}
-                  </p>
-                  <p className="text-lg pb-4">Tác giả: {book.author}</p>
-                  <p className="text-lg pb-4">Kênh: {book.channel}</p>
-                  <FormControlLabel
-                    label={
-                      <p className="text-lg text-[#1976d2]">Đánh dấu sách</p>
-                    }
-                    control={<Checkbox />}
-                  />
-                </Box>
-              </Grid>
-              <Grid item xs>
-                <Box>
-                  <p className="text-xl font-medium pb-4 text-blue-600/100">
-                    Lời tựa
-                  </p>
-                  <p className="text-lg pb-4">{book.description}</p>
-                  <Button
-                    startIcon={<PlayArrowIcon />}
-                    size="large"
-                    variant="contained"
-                  >
-                    Phát tất cả
-                  </Button>
-                  <div className="pb-8" />
-                  {canHear == true ? (
-                    audios.map((audio, key) => (
-                      <UnitItem
-                        onClick={() => setAudioIndex(key)}
-                        key={key}
-                        active={audioIndex == key ? 1 : 0}
-                      >
-                        <p className="text-lg">{audio.name}</p>
-                      </UnitItem>
-                    ))
-                  ) : (
-                    <p className="text-lg">Vui lòng nâng cấp VIP để nghe!</p>
-                  )}
-                </Box>
-              </Grid>
-            </Grid>
-          </Box>
+        <Box sx={{ height: "auto", width: "100%", padding: "24px 0px" }}>
+          <p className="text-xl font-medium pb-4 leading-8">
+            Lịch sử giao dịch
+          </p>
+          <div class="flex items-end justify-end">
+            <Input placeholder="Ngày bắt đầu" />
+            <div className="pr-4" />
+            <Input placeholder="Ngày kết thúc" />
+            <div className="pr-4" />
+            <FormControl variant="standard" sx={{ minWidth: 120 }}>
+              <Select
+                labelId="demo-simple-select-standard-label"
+                id="demo-simple-select-standard"
+                value={status}
+                label="Trạng thái"
+                onChange={(e) => setStatus(e.target.value)}
+              >
+                <MenuItem value={1}>Chưa đọc</MenuItem>
+                <MenuItem value={2}>Đã đọc</MenuItem>
+              </Select>
+            </FormControl>
+            <div className="pr-4" />
+            <Button
+              startIcon={<FilterAltIcon />}
+              size="large"
+              variant="outlined"
+            >
+              Lọc
+            </Button>
+          </div>
         </Box>
-        <div className="pb-8" />
-        <Box
-          sx={{
-            bgcolor: "#3f51b5",
-            height: "auto",
-            width: "100%",
-            padding: "38px",
-          }}
-        >
-          <Grid container spacing={3}>
-            <Grid item xs>
-              <div className="w-full h-full flex justify-center items-center">
-                {/* <SkipPreviousIcon sx={{ fontSize: 60, color: 'white' }} />
-                                <div className='w-3'/>
-                                <RotateLeftOutlinedIcon sx={{ fontSize: 48, color: 'white' }} />
-                                <div className='w-3'/>
-                                <PlayCircleOutlineIcon sx={{ fontSize: 85, color: 'white' }} />
-                                <div className='w-3'/>
-                                <RotateRightOutlinedIcon sx={{ fontSize: 48, color: 'white' }} />
-                                <div className='w-3'/>
-                                <SkipNextIcon sx={{ fontSize: 60, color: 'white' }} /> */}
-                <ReactAudioPlayer
-                  src={canHear == true ? audios[audioIndex]?.url : ""}
-                  autoPlay
-                  controls
-                />
-              </div>
-            </Grid>
-            <Grid item xs="auto">
-              <Avatar sx={{ width: 136, height: 136 }} src={book.thumbnail} />
-            </Grid>
-            <Grid item xs>
-              <div className="w-full h-full flex justify-center text-xl font-semibold items-center text-white">
-                {book.name}
-              </div>
-            </Grid>
-          </Grid>
-        </Box>
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell>Thời gian</TableCell>
+                <TableCell align="left">Tên sách</TableCell>
+                <TableCell align="left">Tác giả</TableCell>
+                <TableCell align="left">Số tiền</TableCell>
+                <TableCell align="left">Trạng thái</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {rows.map((row) => (
+                <TableRow
+                  key={row.name}
+                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                >
+                  <TableCell component="th" scope="row">
+                    {row.time}
+                  </TableCell>
+                  <TableCell align="left">{row.name}</TableCell>
+                  <TableCell align="left">{row.author}</TableCell>
+                  <TableCell align="left">{row.price}</TableCell>
+                  <TableCell align="left">{row.status}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <TablePagination
+          rowsPerPageOptions={[5, 10, 25]}
+          component="div"
+          count={10}
+          rowsPerPage={5}
+          page={1}
+        />
       </Container>
     </>
   );

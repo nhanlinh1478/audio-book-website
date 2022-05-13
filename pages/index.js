@@ -9,6 +9,7 @@ import useWindowSize from "../utils/useWindowSize";
 import axios from "axios";
 import ImageGallery from "react-image-gallery";
 import { useState } from "react";
+import Link from "next/link";
 
 const images = [
   {
@@ -87,94 +88,30 @@ export default function Home({ categories, books }) {
       <div className="pt-10">
         <div className="flex justify-center ">
           <div className="w-2/3">
-            <div className="flex items-center text-blue-500 font-bold text-2xl ml-28 mb-5">
-              Gợi ý cho người mới bắt đầu
-            </div>
-            <div className="flex justify-center  grid-flow-col grid-rows-1 grid-cols-4 gap-8 mb-5 ml-24">
-              <div className="w-40 h-40 mx-2">
-                <img
-                  className="rounded-2xl"
-                  src={`https://voiz-prod.s3-wewe.cloud.cmctelecom.vn/uploads/avatar/filename/686/83467817430fcfbd09198ebc6214f5a9e1e46490.png`}
-                />
+            {categories.map((category, key) => (
+              <div key={key}>
+                <div className="flex items-center text-blue-500 font-bold text-2xl ml-28 mb-5">
+                  {category.name}
+                </div>
+                <div className="flex justify-center  grid-flow-col grid-rows-1 grid-cols-4 gap-8 mb-5 ml-24">
+                  {books.map((book, index) =>
+                    book.categoryId._id === category._id ? (
+                      <Link key={index} href={`/book/${book.slug}`}>
+                        <div className="w-40 h-40 mx-2 cursor-pointer">
+                          <img
+                            className="rounded-2xl min-h-full min-w-full object-cover"
+                            src={book.thumbnail}
+                          />
+                        </div>
+                      </Link>
+                    ) : (
+                      ""
+                    )
+                  )}
+                </div>
               </div>
-              <div className="w-40 h-40 mx-2">
-                <img
-                  className="rounded-2xl"
-                  src={`https://voiz-prod.s3-wewe.cloud.cmctelecom.vn/uploads/avatar/filename/686/83467817430fcfbd09198ebc6214f5a9e1e46490.png`}
-                />
-              </div>
-              <div className="w-40 h-40 mx-2 ">
-                <img
-                  className="rounded-2xl"
-                  src={`https://voiz-prod.s3-wewe.cloud.cmctelecom.vn/uploads/avatar/filename/686/83467817430fcfbd09198ebc6214f5a9e1e46490.png`}
-                />
-              </div>
-              <div className="w-40 h-40 mx-2">
-                <img
-                  className="rounded-2xl"
-                  src={`https://voiz-prod.s3-wewe.cloud.cmctelecom.vn/uploads/avatar/filename/686/83467817430fcfbd09198ebc6214f5a9e1e46490.png`}
-                />
-              </div>
-            </div>
-            <div className="flex item-center text-blue-500 font-bold text-2xl  ml-28 mb-5">
-              AudioBook bản quyền
-            </div>
-            <div className=" flex justify-center  grid-flow-col grid-rows-1 grid-cols-4 gap-8 mb-5 ml-24">
-              <div className="w-40 h-40 mx-2">
-                <img
-                  className="rounded-2xl"
-                  src={`https://voiz-prod.s3-wewe.cloud.cmctelecom.vn/uploads/avatar/filename/686/83467817430fcfbd09198ebc6214f5a9e1e46490.png`}
-                />
-              </div>
-              <div className="w-40 h-40 mx-2">
-                <img
-                  className="rounded-2xl"
-                  src={`https://voiz-prod.s3-wewe.cloud.cmctelecom.vn/uploads/avatar/filename/686/83467817430fcfbd09198ebc6214f5a9e1e46490.png`}
-                />
-              </div>
-              <div className="w-40 h-40 mx-2 ">
-                <img
-                  className="rounded-2xl"
-                  src={`https://voiz-prod.s3-wewe.cloud.cmctelecom.vn/uploads/avatar/filename/686/83467817430fcfbd09198ebc6214f5a9e1e46490.png`}
-                />
-              </div>
-              <div className="w-40 h-40 mx-2">
-                <img
-                  className="rounded-2xl"
-                  src={`https://voiz-prod.s3-wewe.cloud.cmctelecom.vn/uploads/avatar/filename/686/83467817430fcfbd09198ebc6214f5a9e1e46490.png`}
-                />
-              </div>
-            </div>
-            <div className="flex  items-center  text-blue-500 font-bold text-2xl  ml-28 mb-5">
-              Podcast đặc sắc
-            </div>
-            <div className=" flex justify-center  grid-flow-col grid-rows-1 grid-cols-4 gap-8 mb-5 ml-24">
-              <div className="w-40 h-40 mx-2">
-                <img
-                  className="rounded-2xl"
-                  src={`https://voiz-prod.s3-wewe.cloud.cmctelecom.vn/uploads/avatar/filename/686/83467817430fcfbd09198ebc6214f5a9e1e46490.png`}
-                />
-              </div>
-              <div className="w-40 h-40 mx-2">
-                <img
-                  className="rounded-2xl"
-                  src={`https://voiz-prod.s3-wewe.cloud.cmctelecom.vn/uploads/avatar/filename/686/83467817430fcfbd09198ebc6214f5a9e1e46490.png`}
-                />
-              </div>
-              <div className="w-40 h-40 mx-2 ">
-                <img
-                  className="rounded-2xl"
-                  src={`https://voiz-prod.s3-wewe.cloud.cmctelecom.vn/uploads/avatar/filename/686/83467817430fcfbd09198ebc6214f5a9e1e46490.png`}
-                />
-              </div>
-              <div className="w-40 h-40 mx-2">
-                <img
-                  className="rounded-2xl"
-                  src={`https://voiz-prod.s3-wewe.cloud.cmctelecom.vn/uploads/avatar/filename/686/83467817430fcfbd09198ebc6214f5a9e1e46490.png`}
-                />
-              </div>
-            </div>
-            <div className="flex  items-center  text-blue-500 font-bold text-2xl  ml-28 mb-5">
+            ))}
+            {/* <div className="flex  items-center  text-blue-500 font-bold text-2xl  ml-28 mb-5">
               Nội dung mới cho bạn
             </div>
             <div className="flex justify-center  grid-flow-col grid-rows-1 grid-cols-4 gap-3 mb-5 ml-24">
@@ -214,9 +151,9 @@ export default function Home({ categories, books }) {
                   />
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
-          <div className="w-1/3 ">
+          <div className="w-1/3">
             <div className="flex justify-center items-center mb-5 text-blue-500 text-2xl font-bold">
               Bảng xếp hạng
             </div>
@@ -242,60 +179,31 @@ export default function Home({ categories, books }) {
                 Podcast
               </div>
             </div>
-            <div className="flex justify-center items-center mb-10">
-              <img
-                className="w-28 h-28 rounded-xl mx-3"
-                src={`https://voiz-prod.s3-wewe.cloud.cmctelecom.vn/uploads/avatar/filename/686/83467817430fcfbd09198ebc6214f5a9e1e46490.png`}
-              />
-              <div>
-                <div className="text-blue-500 font-bold text-xl">01</div>
-                <div className="font-bold text-lg">
-                  Tuổi trẻ dùng để làm gì?
+            {books.map((book, key) => (
+              <Link key={key} href={`/book/${book.slug}`}>
+                <div className="flex items-center mb-10 cursor-pointer">
+                  <img
+                    className="w-28 h-28 rounded-xl mx-3 object-cover"
+                    src={book.thumbnail}
+                  />
+                  <div>
+                    <div className="text-blue-500 font-bold text-xl">
+                      {key + 1}
+                    </div>
+                    <div className="font-bold text-lg">
+                      {book.name.slice(0, 35) +
+                        (book.name.length > 35 ? "..." : "")}
+                    </div>
+                    <div className="font-semibold text-gray-500">
+                      {book.author}
+                    </div>
+                    <div className="font-semibold text-gray-500">
+                      {book.channel}
+                    </div>
+                  </div>
                 </div>
-                <div className="font-semibold text-gray-500">
-                  Huỳnh Chí Viễn
-                </div>
-                <div className="font-semibold text-gray-500">
-                  Huỳnh Chí Viễn
-                </div>
-              </div>
-            </div>
-            <div className="flex justify-center items-center mb-10">
-              <img
-                className="w-28 h-28 rounded-xl mx-3"
-                src={`https://voiz-prod.s3-wewe.cloud.cmctelecom.vn/uploads/avatar/filename/686/83467817430fcfbd09198ebc6214f5a9e1e46490.png`}
-              />
-              <div>
-                <div className="text-blue-500 font-bold text-xl">01</div>
-                <div className="font-bold text-lg">
-                  Tuổi trẻ dùng để làm gì?
-                </div>
-                <div className="font-semibold text-gray-500">
-                  Huỳnh Chí Viễn
-                </div>
-                <div className="font-semibold text-gray-500">
-                  Huỳnh Chí Viễn
-                </div>
-              </div>
-            </div>
-            <div className="flex justify-center items-center mb-10">
-              <img
-                className="w-28 h-28 rounded-xl mx-3"
-                src={`https://voiz-prod.s3-wewe.cloud.cmctelecom.vn/uploads/avatar/filename/686/83467817430fcfbd09198ebc6214f5a9e1e46490.png`}
-              />
-              <div>
-                <div className="text-blue-500 font-bold text-xl">01</div>
-                <div className="font-bold text-lg">
-                  Tuổi trẻ dùng để làm gì?
-                </div>
-                <div className="font-semibold text-gray-500">
-                  Huỳnh Chí Viễn
-                </div>
-                <div className="font-semibold text-gray-500">
-                  Huỳnh Chí Viễn
-                </div>
-              </div>
-            </div>
+              </Link>
+            ))}
           </div>
         </div>
       </div>

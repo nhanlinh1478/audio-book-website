@@ -19,6 +19,7 @@ import { DUMMY_CART_ITEMS } from "./cart";
 // Utils
 import getPriceString from "../../utils/getPriceString";
 import getTotalPrice from "../../utils/getTotalPrice";
+import Layout from "../../components/layout/Layout";
 
 export default function payment() {
   return (
@@ -270,3 +271,5 @@ export default function payment() {
     </Container>
   );
 }
+
+payment.layout = Layout;

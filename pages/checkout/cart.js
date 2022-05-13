@@ -15,6 +15,8 @@ import CheckoutCartItem from "../../components/checkout/cart/CheckoutCartItem";
 // Utils
 import getPriceString from "../../utils/getPriceString";
 import getTotalPrice from "../../utils/getTotalPrice";
+import Layout from "../../components/layout/Layout";
+import Link from "next/link";
 
 // DUMMY_CART_ITEMS
 export const DUMMY_CART_ITEMS = [
@@ -156,22 +158,24 @@ export default function cart() {
                   </Toolbar>
                 </Grid>
                 <Grid item>
-                  <Button
-                    variant="contained"
-                    sx={{
-                      borderRadius: 6,
-                      color: "white",
-                      textTransform: "none",
-                      background: "red",
-                      fontWeight: 300,
-                      "&:hover": {
-                        backgroundColor: "red",
-                      },
-                    }}
-                    fullWidth
-                  >
-                    Tiến hành thanh toán
-                  </Button>
+                  <Link href={`/checkout/payment`}>
+                    <Button
+                      variant="contained"
+                      sx={{
+                        borderRadius: 6,
+                        color: "white",
+                        textTransform: "none",
+                        background: "red",
+                        fontWeight: 300,
+                        "&:hover": {
+                          backgroundColor: "red",
+                        },
+                      }}
+                      fullWidth
+                    >
+                      Tiến hành thanh toán
+                    </Button>
+                  </Link>
                 </Grid>
               </Grid>
             </Grid>
@@ -181,3 +185,5 @@ export default function cart() {
     </Container>
   );
 }
+
+cart.layout = Layout;

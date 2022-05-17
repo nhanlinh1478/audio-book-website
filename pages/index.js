@@ -35,14 +35,14 @@ export async function getServerSideProps(context) {
   const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/categories`);
   if (res.status == 200) {
     if (res.data.success == true) {
-      const categories = res.data.data;
+      const categories = res.data.data.categories;
       for (let i = 0; i < categories.length; i++) {
         const res = await axios.get(
           `${process.env.NEXT_PUBLIC_API_URL}/books/category/${categories[i]._id}`
         );
         if (res.status == 200) {
           if (res.data.success == true) {
-            const data = res.data.data;
+            const data = res.data.data.books;
             data.forEach((book) => {
               books.push(book);
             });

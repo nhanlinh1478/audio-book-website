@@ -4,6 +4,6 @@
     "eslint:recommended",
     "next",
     "prettier",
-    "next/babel",
+    "next/babel"
   ]
 }

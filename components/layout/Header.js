@@ -22,7 +22,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { updateJwt, updateUser } from "../../redux/storeManage";
 import CategoryCard from "../CategoryCard";
-const pages = ["Sách nói", "Podcast"];
+const pages = ["Sách nói"];
 const settings = ["Profile", "Account", "Dashboard"];
 
 const Search = styled("div")(({ theme }) => ({
@@ -64,20 +64,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
   },
 }));
-const data = [
-  "Ca1",
-  "set2",
-  "set3",
-  "set4",
-  "set5",
-  "set6",
-  "set7 ",
-  "nha3",
-  "nhan3",
-  "nhan4",
-  "nhan5",
-  "n",
-];
+
 const ResponsiveAppBar = () => {
   const router = useRouter();
   const dispatch = useDispatch();
@@ -107,6 +94,7 @@ const ResponsiveAppBar = () => {
     dispatch(updateJwt("null"));
     dispatch(updateUser("null"));
   };
+
   const [anchorEl, setAnchorEl] = useState(null);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -114,12 +102,14 @@ const ResponsiveAppBar = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
   const handleChangeSearch = (e) => {
     setKeyWord(e.target.value);
   };
   useEffect(() => {
     setKeyWord(router.query.keyword || "");
   }, []);
+  console.log("handleClose", handleClose);
   return (
     <div className="relative">
       <div className="fixed top-0 left-0 right-0" style={{ zIndex: 10 }}>
@@ -174,6 +164,7 @@ const ResponsiveAppBar = () => {
                       <Typography textAlign="center">{page}</Typography>
                     </MenuItem>
                   ))}
+
                   <MenuItem>
                     <Typography textAlign="center">
                       <Link href="/book_request">Đề nghị sách</Link>
@@ -202,6 +193,20 @@ const ResponsiveAppBar = () => {
                     {page}
                   </Button>
                 ))}
+                <Button
+                  sx={{ my: 2, color: "white", display: "block" }}
+                  onClick={handleClick}
+                >
+                  Podcast
+                </Button>
+                <CategoryCard
+                  anchorEl={anchorEl}
+                  setAnchorEl={setAnchorEl}
+                  handleClick={handleClick}
+                  handleClose={handleClose}
+                  sx={{ my: 2, color: "white", display: "block" }}
+                />
+
                 <Button sx={{ my: 2, color: "white", display: "block" }}>
                   <Link href="/book_request">Đề nghị sách</Link>
                 </Button>

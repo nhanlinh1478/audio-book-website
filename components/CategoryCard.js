@@ -3,9 +3,9 @@ import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Fade from "@mui/material/Fade";
-const categories = ["1", "category 2", "ca3", "ca4", "ca5"];
+const categories = ["1", "cat2", "cat3", "cat4", "cat5"];
 function CategoryCard({ anchorEl, setAnchorEl, handleClick, handleClose }) {
-  const open = Boolean(anchorEl);
+  const open = anchorEl;
 
   return (
     <div>

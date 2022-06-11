@@ -163,7 +163,7 @@ Index.layout = Layout;
 
 export async function getServerSideProps(context) {
     const { slug } = context.query;
-    const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/books/slug/${slug}`);
+    const res = await axios.get(`${process.env.NEXT_PUBLIC_CONTAINER_API_URL}/books/slug/${slug}`);
     if (res.status == 200) {
         if (res.data.success == true) {
             const book = res.data.data.book;
@@ -175,7 +175,7 @@ export async function getServerSideProps(context) {
             //     },
             //   };
             // }
-            const res2 = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/books/${book._id}/audios`);
+            const res2 = await axios.get(`${process.env.NEXT_PUBLIC_CONTAINER_API_URL}/books/${book._id}/audios`);
             if (res2.status == 200) {
                 if (res2.data.success == true) {
                     const audios = res2.data.data.audios;

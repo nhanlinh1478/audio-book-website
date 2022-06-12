@@ -83,6 +83,7 @@ const Index = ({ book, audios }) => {
                                     <p className="text-xl font-medium pb-4 leading-8">{book.name}</p>
                                     <p className="text-lg pb-4">Tác giả: {book.author}</p>
                                     <p className="text-lg pb-4">Kênh: {book.channel}</p>
+                                    <p className="text-lg pb-4">Lượt xem: {book.views}</p>
                                     <FormControlLabel
                                         label={<p className="text-lg text-[#1976d2]">Đánh dấu sách</p>}
                                         control={<Checkbox />}

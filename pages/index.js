@@ -10,7 +10,7 @@ import axios from 'axios';
 import ImageGallery from 'react-image-gallery';
 import { useState } from 'react';
 import Link from 'next/link';
-///test cicd
+//test
 const images = [
     {
         original: 'https://picsum.photos/id/1018/1000/600/',

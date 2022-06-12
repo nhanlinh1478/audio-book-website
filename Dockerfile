@@ -14,5 +14,5 @@ COPY . .
 # Next Build
 RUN yarn build
 
-# Run the "dev" script in package.json
-CMD ["yarn", "dev"]
+# Run the "start" script in package.json
+CMD ["yarn", "start"]

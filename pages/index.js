@@ -223,13 +223,13 @@ Home.layout = Layout;
 
 export async function getServerSideProps(context) {
   let books = [];
-  const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/categories`);
+  const res = await axios.get(`${process.env.NEXT_PUBLIC_CONTAINER_API_URL}/categories`);
   if (res.status == 200) {
     if (res.data.success == true) {
       const categories = res.data.data.categories;
       for (let i = 0; i < categories.length; i++) {
         const res = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/books/category/${categories[i]._id}`
+          `${process.env.NEXT_PUBLIC_CONTAINER_API_URL}/books/category/${categories[i]._id}`
         );
         if (res.status == 200) {
           if (res.data.success == true) {

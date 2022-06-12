@@ -23,7 +23,7 @@ export async function getServerSideProps(context) {
     };
   }
   const res = await axios.get(
-    `${process.env.NEXT_PUBLIC_API_URL}/auth/ActivationAccount/${activationCode}`
+    `${process.env.NEXT_PUBLIC_CONTAINER_API_URL}/auth/ActivationAccount/${activationCode}`
   );
 
   if (res.status === 200) {
